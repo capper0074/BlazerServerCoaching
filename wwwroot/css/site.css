@@ -138,15 +138,16 @@ a, .btn-link {
 .Buttons {
     position: relative;
     float: right;
-    margin-top: -150px;
+    margin-top: -170px;
     margin-right: 50px;
-    
-    
+    justify-content: space-between;
 }
 
 .table{
 
-    padding-
+   margin-top: 45px 
 
 }
+
+
 
