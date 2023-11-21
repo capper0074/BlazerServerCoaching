@@ -2,6 +2,7 @@
 {
     public enum MatchType
     {
+        Placeholder,
         Faceit,
         Scrim,
         Metal,

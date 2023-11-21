@@ -2,6 +2,7 @@
 {
     public enum MatchMaps
     {
+        Placeholder,
         Ancient,
         Inferno,
         Nuke,

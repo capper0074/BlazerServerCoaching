@@ -2,6 +2,7 @@
 {
     public enum MatchStatus
     {
+        Placeholder,
         Win,
         Loss,
         Draw
