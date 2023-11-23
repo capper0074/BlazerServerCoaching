@@ -2,6 +2,7 @@ using BlazerServerCoaching.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlazerServerCoaching
 {
@@ -17,6 +18,9 @@ namespace BlazerServerCoaching
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddDbContextFactory<MatchDbContex>((DbContextOptionsBuilder options) => options.UseSqlServer(connectionsString));
+
+                        builder.Services.AddDefaultIdentity<CoachingUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<MatchDbContex>();
             var app = builder.Build();
 
 
@@ -36,6 +40,7 @@ namespace BlazerServerCoaching
 
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
+                        app.UseAuthentication();;
 
             app.Run();
         }
