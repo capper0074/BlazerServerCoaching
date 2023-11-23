@@ -1,3 +1,31 @@
-﻿.test{
-    color:green;
+﻿.body {
+
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
+
+.wrapper {
+
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkbox{
+
+    color: white;
+}
+
+.form-floating{
+
+
+
+}
+
