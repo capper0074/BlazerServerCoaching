@@ -55,11 +55,23 @@
 	</table>
 </section>
 	
-
+<DxPopup
+    @bind-Visible="@PopupVisible"
+    ShowFooter="true"
+    HeaderText="Edit Contact"
+   >
+    <BodyContentTemplate>
+        <SampleEditForm/>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@(() => PopupVisible = false)" />
+        <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="@(() => PopupVisible = false)" />
+    </FooterContentTemplate>
+</DxPopup>
 
 
 <div class="Buttons">
-	<button class="buttonInsert" role="button" >Add a match</button> 
+	<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
 
 	<button class="buttonDelete" role="button">Remove a match</button>
 
@@ -70,6 +82,8 @@
 @code {
 
 	private MatchRepo matchRepo = new MatchRepo();
+
+	bool PopupVisible { get; set; }
 
 	protected override void OnInitialized()
 	{
