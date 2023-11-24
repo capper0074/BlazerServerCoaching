@@ -2,6 +2,7 @@
 @page "/Match"
 @using BlazerServerCoaching.Data.Models;
 @using BlazerServerCoaching.Data.Repo;
+@using DevExpress.Blazor;
 
 <PageTitle>Match</PageTitle>
 <h3>Match Stats</h3>
@@ -55,11 +56,18 @@
 	</table>
 </section>
 	
-<DxPopup
-    @bind-Visible="@PopupVisible"
-    ShowFooter="true"
-    HeaderText="Edit Contact"
-   >
+
+
+
+<div class="Buttons">
+	<button class="buttonInsert" role="button" </button>
+
+	<button class="buttonDelete" role="button">Remove a match</button>
+
+	<button class="buttonEdit" role="button" >Edit a match</button>
+</div>
+
+<DxPopup Visible="@PopupVisible" VisibleChanged="@OnPopupVisibleChanged">
     <BodyContentTemplate>
         <SampleEditForm/>
     </BodyContentTemplate>
@@ -70,24 +78,30 @@
 </DxPopup>
 
 
-<div class="Buttons">
-	<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
-
-	<button class="buttonDelete" role="button">Remove a match</button>
-
-	<button class="buttonEdit" role="button" >Edit a match</button>
-</div>
-
-
 @code {
 
 	private MatchRepo matchRepo = new MatchRepo();
 
-	bool PopupVisible { get; set; }
+	private bool PopupVisible { get; set; }
 
-	protected override void OnInitialized()
+	private bool isInitialized;
+
+	private void OnPopupVisibleChanged(bool newVisibility)
 	{
-		 //MatchType test = 0;
+		PopupVisible = newVisibility;
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (!isInitialized)
+		{
+			matchRepo.Load();
+			isInitialized = true;
+		}
+		
+
+
+		//MatchType test = 0;
 
 		 //MatchMaps test1 = 0;
 
@@ -95,7 +109,7 @@
 
 		 //matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
 
-		matchRepo.Load();
+		
 	}
 
 	private List<Match> matchLists = MatchRepo.GetMatchList();
