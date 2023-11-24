@@ -170,6 +170,136 @@ a, .btn-link {
     border-bottom: 2px solid #673FD7; /*Last line of table color*/
 }
 
+.Home_logo{
+
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -300px;
+
+}
+
+.Home_logo .hl{
+
+    position:relative;
+    width: 100%;
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.Home_logo .hl .home_content{
+
+    width: 50%;
+    height: 100%;
+
+}
+
+.Home_logo .hl .home_content h2{
+    font-size: 4em;
+    color: black; /*MAKE IT WHITE AFTER, CHANGING THE BACKGROUND*/
+    letter-spacing: 1px;
+}
+
+.Home_logo .hl .home_content p{
+    font-size:1em;
+    color: #dbd9d9; 
+    letter-spacing: 1px;
+}
+
+.Home_logo .hl .home_content a{
+
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 0;
+    border: 1px solid black; /*Change color for the outline button later*/
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    color: black; /*Change it to white after*/
+    letter-spacing: 1px;
+}
+
+.Home_logo .hl .home_content a:hover{
+    background: #673FD7; /*Change color*/
+    border: none;
+    color: rgba(0,0,0,0.25);
+    box-shadow: 0 0 10px #673FD7; /*Change color*/
+}
+
+.Home_logo .hl img{
+
+    width: 1200px;
+    
+
+}
+
+.about{
+
+    position: relative;
+    width: 100%;
+    min-height: 75vh;
+    padding: 0px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about .contentAbout{
+
+    width: 50%;
+    margin: 20px;
+
+}
+
+.about .contentAbout h2{
+
+    font-size: 3em;
+    font-weight: 700;
+    color: black;
+}
+
+.about .contentAbout p{
+
+    max-width: 600px;
+    text-align: justify;
+    color: #dbd9d9;
+
+}
+
+.about .contentAbout a{
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 0;
+    border: 1px solid black; /*Change color for the outline button later*/
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    color: black; /*Change it to white after*/
+    letter-spacing: 1px;
+}
+
+.about .contentAbout a:hover{
+    background: #673FD7; /*Change color*/
+    border: none;
+    color: rgba(0,0,0,0.25);
+    box-shadow: 0 0 10px #673FD7; /*Change color*/
+}
+
+.about img{
+
+    width: 500px;
+}
+
+
+
+
 
 
 
