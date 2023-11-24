@@ -4,8 +4,19 @@
 @using BlazerServerCoaching.Data.Repo;
 
 <PageTitle>Match</PageTitle>
+
+<div class="Match-text">
 <h3>Match Stats</h3>
 
+	<div class="Buttons">
+		<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
+
+		<button class="buttonDelete" role="button">Remove a match</button>
+
+		<button class="buttonEdit" role="button">Edit a match</button>
+	</div>
+
+</div>
 <section class="Hero">
 
 	<table class="table">
@@ -53,9 +64,17 @@
 		</tbody>
 
 	</table>
+
+		@*<div class="Buttons">
+			<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
+
+			<button class="buttonDelete" role="button">Remove a match</button>
+
+			<button class="buttonEdit" role="button">Edit a match</button>
+		</div>*@
 </section>
 	
-<DxPopup
+@*<DxPopup
     @bind-Visible="@PopupVisible"
     ShowFooter="true"
     HeaderText="Edit Contact"
@@ -68,15 +87,8 @@
         <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="@(() => PopupVisible = false)" />
     </FooterContentTemplate>
 </DxPopup>
+*@
 
-
-<div class="Buttons">
-	<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
-
-	<button class="buttonDelete" role="button">Remove a match</button>
-
-	<button class="buttonEdit" role="button" >Edit a match</button>
-</div>
 
 
 @code {
@@ -87,15 +99,15 @@
 
 	protected override void OnInitialized()
 	{
-		 //MatchType test = 0;
+		// MatchType test = 0;
 
-		 //MatchMaps test1 = 0;
+		// MatchMaps test1 = 0;
 
-		 //MatchStatus test2 = 0;
+		// MatchStatus test2 = 0;
 
-		 //matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
+		// matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
 
-		matchRepo.Load();
+		//matchRepo.Load();
 	}
 
 	private List<Match> matchLists = MatchRepo.GetMatchList();
