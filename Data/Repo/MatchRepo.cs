@@ -5,7 +5,7 @@ namespace BlazerServerCoaching.Data.Repo
 {
     public class MatchRepo : Repository
     {
-        private List<Match> matches = new();
+        private static List<Match> matches = new();
 
         public override void Load()
         {
@@ -58,24 +58,24 @@ namespace BlazerServerCoaching.Data.Repo
             }
         }
 
-        public void Save(int id, DateTime date, Models.MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
+        public void Save(string date, Models.MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
         {
             using (SqlConnection con  = GetConnection())
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO MATCHS (Id, Date, Type, Oppenent, Maps, Status, TsideW, TSideL, CTSideW, CTSideL, TPistol, CTPistol) " + "VALUES(@Id, @Date, @Type, @Oppenent, @Maps, @Status, @TsideW, @TsideL, @CTSideW, @CTSideL, @TPistol, @CTPistol", con);
+                SqlCommand cmd = new SqlCommand("INSERT INTO MATCHS (Date, Type, Oppenent, Maps, Status, TsideW, TSideL, CTSideW, CTSideL, TPistol, CTPistol) " + "VALUES(@Date, @Type, @Oppenent, @Maps, @Status, @TsideW, @TsideL, @CTSideW, @CTSideL, @TPistol, @CTPistol)", con);
 
-                cmd.Parameters.AddWithValue("@Id", id.ToString());
+                //cmd.Parameters.AddWithValue("@Id", id.ToString());
                 cmd.Parameters.AddWithValue("@Date", date.ToString());
                 cmd.Parameters.AddWithValue("@Type", type.ToString());
                 cmd.Parameters.AddWithValue("@Oppenent", oppenent.ToString());
                 cmd.Parameters.AddWithValue("@Maps", maps.ToString());
                 cmd.Parameters.AddWithValue("@Status", status.ToString());
                 cmd.Parameters.AddWithValue("@TsideW", tSideW.ToString());
-                cmd.Parameters.AddWithValue("@TsideW", tSideL.ToString());
-                cmd.Parameters.AddWithValue("@TsideW", cTSideW.ToString());
-                cmd.Parameters.AddWithValue("@TsideW", cTSideL.ToString());
+                cmd.Parameters.AddWithValue("@TsideL", tSideL.ToString());
+                cmd.Parameters.AddWithValue("@CTsideW", cTSideW.ToString());
+                cmd.Parameters.AddWithValue("@CTsideL", cTSideL.ToString());
                 cmd.Parameters.AddWithValue("@TPistol", tPistol.ToString());
                 cmd.Parameters.AddWithValue("@CTPistol", cTPistol.ToString());
 
@@ -92,7 +92,7 @@ namespace BlazerServerCoaching.Data.Repo
             throw new ArgumentException($"Could not find employee with mail: {id}");
         }
 
-        public List<Match> GetMatchList()
+        public static List<Match> GetMatchList()
         {
             return new(matches);
         }

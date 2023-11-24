@@ -1,8 +1,10 @@
-﻿@page "/Match"
+﻿
+@page "/Match"
+@using BlazerServerCoaching.Data.Models;
+@using BlazerServerCoaching.Data.Repo;
 
 <PageTitle>Match</PageTitle>
 <h3>Match Stats</h3>
-
 
 <section class="Hero">
 
@@ -39,14 +41,34 @@
 				<td>Vundet</td>
 				<td>8</td>
 				<td>2</td>
-				<td>@Rounds.TotalTRounds</td>
+				<td>Meh</td>
 				<td>5</td>
 				<td>1</td>
-				<td>@Rounds.TotalCTRounds</td>
+				<td>Meh</td>
 				<td>Vundet</td>
 				<td>Vundet</td>
 
 			</tr>
+
+			@foreach (var matchList in matchLists)
+			{
+				<tr>
+					<td>@matchList.Id</td>
+					<td>@matchList.Date</td>
+					<td>@matchList.Type</td>
+					<td>@matchList.Oppenent</td>
+					<td>@matchList.Maps</td>
+					<td>@matchList.Status</td>
+					<td>@matchList.TSideW</td>
+					<td>@matchList.TSideL</td>
+					<td>@CalculateTotalRound(matchList.TSideW, matchList.TSideL)</td>
+					<td>@matchList.CTSideW</td>
+					<td>@matchList.CTSideL</td>
+					<td>@CalculateTotalRound(matchList.CTSideW, matchList.CTSideL)</td>
+					<td>@matchList.TPistol</td>
+					<td>@matchList.CTPistol</td>
+				</tr>
+			}
 
 
 
@@ -60,7 +82,7 @@
 
 
 <div class="Buttons">
-	<button class="buttonInsert" @onclick="Rounds.UpdateTotal" role="button" >Add a match</button>
+	<button class="buttonInsert" role="button" >Add a match</button> 
 
 	<button class="buttonDelete" role="button">Remove a match</button>
 
@@ -70,26 +92,25 @@
 
 @code {
 
-	public static class Rounds
+	private MatchRepo matchRepo = new MatchRepo();
+
+	protected override void OnInitialized()
 	{
+		MatchType test = 0;
 
-		public static int TotalTRounds{ get; set; }
+		MatchMaps test1 = 0;
 
-		public static int TotalCTRounds { get; set; }
+		MatchStatus test2 = 0;
 
-
-
-		public static void UpdateTotal()
-		{
-			TotalTRounds += 1;
-
-			TotalCTRounds += 1;
-		}
-
-
-	
+		matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
 	}
 
+	private List<Match> matchLists = MatchRepo.GetMatchList();
+
+	public int? CalculateTotalRound(int? wonRounds, int? lostRounds)
+	{
+		return wonRounds + lostRounds;
+	}
 
 	
 

@@ -4,6 +4,7 @@ using BlazerServerCoaching.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazerServerCoaching.Migrations
 {
     [DbContext(typeof(MatchDbContex))]
-    partial class MatchDbContexModelSnapshot : ModelSnapshot
+    [Migration("20231124030650_test5")]
+    partial class test5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace BlazerServerCoaching.Migrations
                     b.Property<int?>("Maps")
                         .HasColumnType("int");
 
-                    b.Property<string>("Oppenent")
+                    b.Property<string>("Opponent")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Status")
