@@ -1,9 +1,22 @@
-﻿@page "/Match"
+﻿
+@page "/Match"
+@using BlazerServerCoaching.Data.Models;
+@using BlazerServerCoaching.Data.Repo;
 
 <PageTitle>Match</PageTitle>
+
+<div class="Match-text">
 <h3>Match Stats</h3>
 
+	<div class="Buttons">
+		<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
 
+		<button class="buttonDelete" role="button">Remove a match</button>
+
+		<button class="buttonEdit" role="button">Edit a match</button>
+	</div>
+
+</div>
 <section class="Hero">
 
 	<table class="table">
@@ -27,69 +40,82 @@
 			</tr>
 
 		</thead>
-
 		<tbody class="matchData">
-			<tr>
 
-				<td>543</td>
-				<td>18-11-2023</td>
-				<td>Scrim</td>
-				<td>Astralis</td>
-				<td>Vertigo</td>
-				<td>Vundet</td>
-				<td>8</td>
-				<td>2</td>
-				<td>@Rounds.TotalTRounds</td>
-				<td>5</td>
-				<td>1</td>
-				<td>@Rounds.TotalCTRounds</td>
-				<td>Vundet</td>
-				<td>Vundet</td>
-
-			</tr>
-
-
-
-
+			@for (int i = 0; i < matchLists.Count(); i++)
+			{
+				<tr>
+					<td>@matchLists[i].Id</td>
+					<td>@matchLists[i].Date</td>
+					<td>@matchLists[i].Type</td>
+					<td>@matchLists[i].Oppenent</td>
+					<td>@matchLists[i].Maps</td>
+					<td>@matchLists[i].Status</td>
+					<td>@matchLists[i].TSideW</td>
+					<td>@matchLists[i].TSideL</td>
+					<td>@CalculateTotalRound(matchLists[i].TSideW, matchLists[i].TSideL)</td>
+					<td>@matchLists[i].CTSideW</td>
+					<td>@matchLists[i].CTSideL</td>
+					<td>@CalculateTotalRound(matchLists[i].CTSideW, matchLists[i].CTSideL)</td>
+					<td>@matchLists[i].TPistol</td>
+					<td>@matchLists[i].CTPistol</td>
+				</tr>
+			}
 		</tbody>
 
-		</table>
+	</table>
+
+		@*<div class="Buttons">
+			<button class="buttonInsert" role="button" @onclick="@(() => PopupVisible = true)">Add a match</button>
+
+			<button class="buttonDelete" role="button">Remove a match</button>
+
+			<button class="buttonEdit" role="button">Edit a match</button>
+		</div>*@
 </section>
 	
+@*<DxPopup
+    @bind-Visible="@PopupVisible"
+    ShowFooter="true"
+    HeaderText="Edit Contact"
+   >
+    <BodyContentTemplate>
+        <SampleEditForm/>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@(() => PopupVisible = false)" />
+        <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Secondary" Text="Cancel" Click="@(() => PopupVisible = false)" />
+    </FooterContentTemplate>
+</DxPopup>
+*@
 
-
-
-<div class="Buttons">
-	<button class="buttonInsert" @onclick="Rounds.UpdateTotal" role="button" >Add a match</button>
-
-	<button class="buttonDelete" role="button">Remove a match</button>
-
-	<button class="buttonEdit" role="button" >Edit a match</button>
-</div>
 
 
 @code {
 
-	public static class Rounds
+	private MatchRepo matchRepo = new MatchRepo();
+
+	bool PopupVisible { get; set; }
+
+	protected override void OnInitialized()
 	{
+		// MatchType test = 0;
 
-		public static int TotalTRounds{ get; set; }
+		// MatchMaps test1 = 0;
 
-		public static int TotalCTRounds { get; set; }
+		// MatchStatus test2 = 0;
 
+		// matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
 
-
-		public static void UpdateTotal()
-		{
-			TotalTRounds += 1;
-
-			TotalCTRounds += 1;
-		}
-
-
-	
+		//matchRepo.Load();
 	}
 
+	private List<Match> matchLists = MatchRepo.GetMatchList();
+
+	public int? CalculateTotalRound(int? wonRounds, int? lostRounds)
+	{
+		return wonRounds + lostRounds;
+	}
 
 	
 
