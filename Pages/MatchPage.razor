@@ -29,53 +29,30 @@
 			</tr>
 
 		</thead>
-
 		<tbody class="matchData">
-			<tr>
 
-				<td>543</td>
-				<td>18-11-2023</td>
-				<td>Scrim</td>
-				<td>Astralis</td>
-				<td>Vertigo</td>
-				<td>Vundet</td>
-				<td>8</td>
-				<td>2</td>
-				<td>Meh</td>
-				<td>5</td>
-				<td>1</td>
-				<td>Meh</td>
-				<td>Vundet</td>
-				<td>Vundet</td>
-
-			</tr>
-
-			@foreach (var matchList in matchLists)
+			@for (int i = 0; i < matchLists.Count(); i++)
 			{
 				<tr>
-					<td>@matchList.Id</td>
-					<td>@matchList.Date</td>
-					<td>@matchList.Type</td>
-					<td>@matchList.Oppenent</td>
-					<td>@matchList.Maps</td>
-					<td>@matchList.Status</td>
-					<td>@matchList.TSideW</td>
-					<td>@matchList.TSideL</td>
-					<td>@CalculateTotalRound(matchList.TSideW, matchList.TSideL)</td>
-					<td>@matchList.CTSideW</td>
-					<td>@matchList.CTSideL</td>
-					<td>@CalculateTotalRound(matchList.CTSideW, matchList.CTSideL)</td>
-					<td>@matchList.TPistol</td>
-					<td>@matchList.CTPistol</td>
+					<td>@matchLists[i].Id</td>
+					<td>@matchLists[i].Date</td>
+					<td>@matchLists[i].Type</td>
+					<td>@matchLists[i].Oppenent</td>
+					<td>@matchLists[i].Maps</td>
+					<td>@matchLists[i].Status</td>
+					<td>@matchLists[i].TSideW</td>
+					<td>@matchLists[i].TSideL</td>
+					<td>@CalculateTotalRound(matchLists[i].TSideW, matchLists[i].TSideL)</td>
+					<td>@matchLists[i].CTSideW</td>
+					<td>@matchLists[i].CTSideL</td>
+					<td>@CalculateTotalRound(matchLists[i].CTSideW, matchLists[i].CTSideL)</td>
+					<td>@matchLists[i].TPistol</td>
+					<td>@matchLists[i].CTPistol</td>
 				</tr>
 			}
-
-
-
-
 		</tbody>
 
-		</table>
+	</table>
 </section>
 	
 
@@ -96,13 +73,15 @@
 
 	protected override void OnInitialized()
 	{
-		MatchType test = 0;
+		// MatchType test = 0;
 
-		MatchMaps test1 = 0;
+		// MatchMaps test1 = 0;
 
-		MatchStatus test2 = 0;
+		// MatchStatus test2 = 0;
 
-		matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
+		// matchRepo.Save("12/12/2012", test, "bøv", test1 , test2, 10, 2, 3, 5, false, true);
+
+		matchRepo.Load();
 	}
 
 	private List<Match> matchLists = MatchRepo.GetMatchList();

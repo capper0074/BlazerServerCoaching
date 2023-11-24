@@ -20,9 +20,9 @@ namespace BlazerServerCoaching.Data.Repo
                     while (reader.Read())
                     {
                         int id = Convert.ToInt32(reader["ID"]);
-                        DateTime Date = DateTime.Parse(reader["Timestamp"].ToString());
+						DateTime date = Convert.ToDateTime(reader["Date"]);
 
-                        string TypeString = reader["Type"].ToString();
+						string TypeString = reader["Type"].ToString();
                         Models.MatchType type =0;
                         if (!string.IsNullOrEmpty(TypeString))
                         {
@@ -52,7 +52,9 @@ namespace BlazerServerCoaching.Data.Repo
                         bool TPistol = Convert.ToBoolean(reader["TPistol"]);
                         bool CTPistol = Convert.ToBoolean(reader["CTPistol"]);
 
-                        Match match = new(id, Date, type, Oppenent, map, status, TsideW, TsideL, CTsideW, CTsideL, TPistol, CTPistol);
+                        Match match = new(id, date, type, Oppenent, map, status, TsideW, TsideL, CTsideW, CTsideL, TPistol, CTPistol);
+
+                        matches.Add(match);                                                                                                                                         
                     }
                 }
             }
@@ -94,7 +96,7 @@ namespace BlazerServerCoaching.Data.Repo
 
         public static List<Match> GetMatchList()
         {
-            return new(matches);
+            return matches;
         }
     }
 }
