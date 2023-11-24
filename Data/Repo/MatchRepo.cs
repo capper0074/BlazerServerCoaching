@@ -23,7 +23,7 @@ namespace BlazerServerCoaching.Data.Repo
                         DateTime Date = DateTime.Parse(reader["Timestamp"].ToString());
 
                         string TypeString = reader["Type"].ToString();
-                        Models.MatchType type =0;
+                        Models.MatchType type = 0;
                         if (!string.IsNullOrEmpty(TypeString))
                         {
                             type = Enum.Parse<Models.MatchType>(TypeString);
@@ -32,7 +32,7 @@ namespace BlazerServerCoaching.Data.Repo
                         string Oppenent = reader["Oppenent"].ToString();
 
                         string Maps = reader["Maps"].ToString();
-                        Models.MatchMaps map=0;
+                        Models.MatchMaps map= 0;
                         if (!string.IsNullOrEmpty(Maps))
                         {
                             map = Enum.Parse<Models.MatchMaps>(Maps);
