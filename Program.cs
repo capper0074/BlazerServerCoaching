@@ -17,6 +17,7 @@ namespace BlazerServerCoaching
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddDbContextFactory<MatchDbContex>((DbContextOptionsBuilder options) => options.UseSqlServer(connectionsString));
+            builder.Services.AddBlazorBootstrap();
             var app = builder.Build();
 
 
