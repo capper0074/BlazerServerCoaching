@@ -85,6 +85,20 @@ namespace BlazerServerCoaching.Data.Repo
             }
         }
 
+        public void Delete(string id)
+        {
+            using (SqlConnection con = GetConnection())
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand($"DELETE FROM MATCHS WHERE Id = {id} ", con);
+
+                cmd.ExecuteNonQuery();
+
+            }
+        }
+
+
         public Match Retrieve(string id)
         {
             foreach (Match match in matches)

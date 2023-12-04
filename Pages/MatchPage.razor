@@ -52,37 +52,85 @@
                     <td>@matchLists[i].CTPistol</td>
                 </tr>
             }
+            
 
-            @matchLists.Clear
         </tbody>
 
     </table>
 </section>
 
-<Modal @ref="modal" Title="Create match">
+<Modal @ref="create" Title="Create match">
     <BodyTemplate>
-        Fill all the boxes to add a match
-
+        Fill all the boxes to add a match<br><br>
+        
         <form action="/action_page.php">
-            <label for="fname">First name:</label><br>
-            <input type="text" id="fname" name="fname" value=""><br>
-            <label for="lname">Last name:</label><br>
-            <input type="text" id="lname" name="lname" value=""><br><br>
-            <input type="submit" value="Submit">
+            <div>
+                <div>
+                    <label for="fname">Dato:</label><br>
+                    <input class="form-control" type="text" id="date" name="date" value=""><br>
+                    <label for="lname">Kamp type:</label><br>
+                    <select class="form-select" aria-label="Default select example">
+                        <option value=@matchType =1>Faceit</option>
+                        <option value=@matchType =2>Scrim</option>
+                        <option value=@matchType =3>Metal</option>
+                        <option value=@matchType =4>Yousee</option>
+                        <option value=@matchType =5>Power</option>
+                    </select><br>
+                </div>
+                <div>
+                    <label for="fname">Oppenent:</label><br>
+                    <input class="form-control" type="text" id="oppenent" name="oppenent" value=""><br>
+                    <label for="lname">Maps:</label><br>
+                    <select class="form-select" aria-label="Default select example">
+                        <option value=@matchMaps =1>Ancient</option>
+                        <option value=@matchMaps =2>Inferno</option>
+                        <option value=@matchMaps =3>Nuke</option>
+                        <option value=@matchMaps =4>Vertigo</option>
+                        <option value=@matchMaps =5>Overpass</option>
+                        <option value=@matchMaps =6>Mirage</option>
+                        <option value=@matchMaps =7>Anubis</option>
+                    </select><br>
+                    <label for="lname">Status:</label><br>
+                    <select class="form-select" aria-label="Default select example">
+                        <option value=@matchStatus =1>Win</option>
+                        <option value=@matchStatus =2>Loss</option>
+                        <option value=@matchStatus =3>Draw</option>
+                    </select><br>
+                </div>
+            </div>
+
         </form>
     </BodyTemplate>
     <FooterTemplate>
-        <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Close</Button>
+        <Button Color="ButtonColor.Secondary" @onclick="OnHideCreatePopupClick">Close</Button>
         <Button Color="ButtonColor.Primary">Save changes</Button>
     </FooterTemplate>
 </Modal>
 
+<Modal @ref="delete" Title="Delete match">
+    <BodyTemplate>
+        Input the id of the match u want to delete
+        <br><br>
+        <label for="fname">Match id:</label><br>
+        <input class="form-control" type="text" id="oppenent" name="oppenent" value=""><br>
+        <p style="color:red">Warning when clicking delete, the data will be gone forever</p>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="OnHideDeletePopupClick">Close</Button>
+        <Button Color="ButtonColor.Primary" @onclick="DeleteMatch">Save changes</Button>
+        <br><br>
+        @if (showText)
+        {
+            <p style="color:red">Data has been deleted</p>
+        }
+    </FooterTemplate>
+</Modal>
 
 
 <div class="Buttons">
-    <button class="buttonInsert" role="button" @onclick="OnShowModalClick"> Create Match </button>
+    <button class="buttonInsert" role="button" @onclick="OnShowCreatePopupClick"> Create Match </button>
 
-    <button class="buttonDelete" role="button">Remove a match</button>
+    <button class="buttonDelete" role="button" @onclick="OnShowDeletePopupClick">Remove a match</button>
 
     <button class="buttonEdit" role="button">Edit a match</button>
 </div>
@@ -90,21 +138,49 @@
 
 @code {
 
-    private Modal? modal = default!;
+    private bool showText = false;
+
+    private void DeleteMatch()
+    {
+        showText = true;
+        counter++;
+    }
+    private int counter = 0;
+
+    private MatchStatus matchStatus = new MatchStatus();
+
+    private MatchMaps matchMaps = new MatchMaps();
+
+    private MatchType matchType = new MatchType();
+
+    private Modal? create = default!;
+
+    private Modal? delete = default!;
 
     //private void SaveChanges()
     //{
     //    matchRepo.Save();
     //}
 
-    private async Task OnShowModalClick()
+    private async Task OnShowCreatePopupClick()
     {
-        await modal.ShowAsync();
+        await create.ShowAsync();
     }
 
-    private async Task OnHideModalClick()
+    private async Task OnHideCreatePopupClick()
     {
-        await modal.HideAsync();
+        await create.HideAsync();
+    }
+
+    private async Task OnShowDeletePopupClick()
+    {
+        await delete.ShowAsync();
+    }
+
+    private async Task OnHideDeletePopupClick()
+    {
+        await delete.HideAsync();
+        showText = false;
     }
 
     private bool isInitialized;
@@ -113,6 +189,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        matchLists.Clear();
+
         matchRepo.Load();
 
         //MatchType test = 0;
@@ -131,7 +209,6 @@
     {
         return wonRounds + lostRounds;
     }
-
 
 
 }
