@@ -60,7 +60,7 @@ namespace BlazerServerCoaching.Data.Repo
             }
         }
 
-        public void Save(string date, Models.MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
+        public void Save(DateTime? date, Models.MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
         {
             using (SqlConnection con  = GetConnection())
             {
@@ -85,7 +85,7 @@ namespace BlazerServerCoaching.Data.Repo
             }
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             using (SqlConnection con = GetConnection())
             {

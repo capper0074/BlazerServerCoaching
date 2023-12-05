@@ -62,14 +62,14 @@
 <Modal @ref="create" Title="Create match">
     <BodyTemplate>
         Fill all the boxes to add a match<br><br>
-        
-        <form action="/action_page.php">
+        @* https://getbootstrap.com/docs/4.0/components/forms/ se for reference *@
+        <form action="/action_page.php"> 
             <div>
                 <div>
                     <label for="fname">Dato:</label><br>
-                    <input class="form-control" type="text" id="date" name="date" value=""><br>
+                    <input class="form-control" type="date" id="date" name="date" @bind="dateValue"><br>
                     <label for="lname">Kamp type:</label><br>
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" @bind="typeValue">
                         <option value=@matchType =1>Faceit</option>
                         <option value=@matchType =2>Scrim</option>
                         <option value=@matchType =3>Metal</option>
@@ -79,9 +79,9 @@
                 </div>
                 <div>
                     <label for="fname">Oppenent:</label><br>
-                    <input class="form-control" type="text" id="oppenent" name="oppenent" value=""><br>
+                    <input class="form-control" type="text" id="oppenent" name="oppenent" @bind="oppenentValue"><br>
                     <label for="lname">Maps:</label><br>
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" @bind="mapsValue">
                         <option value=@matchMaps =1>Ancient</option>
                         <option value=@matchMaps =2>Inferno</option>
                         <option value=@matchMaps =3>Nuke</option>
@@ -91,10 +91,32 @@
                         <option value=@matchMaps =7>Anubis</option>
                     </select><br>
                     <label for="lname">Status:</label><br>
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" @bind="statusValue">
                         <option value=@matchStatus =1>Win</option>
                         <option value=@matchStatus =2>Loss</option>
                         <option value=@matchStatus =3>Draw</option>
+                    </select><br>
+                </div>
+                <div>
+                    <label for="fname">T side win:</label><br>
+                    <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="tSideW"><br>
+                    <label for="fname">T side loss:</label><br>
+                    <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="tSideL"><br>
+                    <label for="fname">CT side win:</label><br>
+                    <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="cTSideW"><br>
+                    <label for="fname">CT side loss:</label><br>
+                    <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="cTSideL"><br>
+                </div>
+                <div>
+                    <label for="fname">T pistol:</label><br>
+                    <select class="form-select" aria-label="Default select example" @bind="tPistol">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select><br>
+                    <label for="fname">CT pistol:</label><br>
+                    <select class="form-select" aria-label="Default select example" @bind="cTPistol">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
                     </select><br>
                 </div>
             </div>
@@ -103,7 +125,7 @@
     </BodyTemplate>
     <FooterTemplate>
         <Button Color="ButtonColor.Secondary" @onclick="OnHideCreatePopupClick">Close</Button>
-        <Button Color="ButtonColor.Primary">Save changes</Button>
+        <Button Color="ButtonColor.Primary" @onclick="SaveMatch">Save changes</Button>
     </FooterTemplate>
 </Modal>
 
@@ -112,7 +134,7 @@
         Input the id of the match u want to delete
         <br><br>
         <label for="fname">Match id:</label><br>
-        <input class="form-control" type="text" id="oppenent" name="oppenent" value=""><br>
+        <input class="form-control" type="text" id="oppenent" name="oppenent" @bind="matchIdDelete"><br>
         <p style="color:red">Warning when clicking delete, the data will be gone forever</p>
     </BodyTemplate>
     <FooterTemplate>
@@ -137,13 +159,47 @@
 
 
 @code {
+    #region Values
+
+    private DateTime? dateValue = null;
+
+    private MatchType typeValue = 0;
+
+    private string oppenentValue = "";
+
+    private MatchMaps mapsValue = 0;
+
+    private MatchStatus statusValue = 0;
+
+    private int tSideW = 0;
+
+    private int tSideL = 0;
+
+    private int cTSideW = 0;
+
+    private int cTSideL = 0;
+
+    private bool tPistol = false;
+
+    private bool cTPistol = false;
+
+    private int matchIdDelete = 0;
+
+    #endregion
 
     private bool showText = false;
+
+    private void SaveMatch()
+    {
+        matchRepo.Save(dateValue, typeValue, oppenentValue, mapsValue, statusValue, tSideW, tSideL, cTSideW, cTSideL, tPistol, cTPistol);
+    }
 
     private void DeleteMatch()
     {
         showText = true;
-        counter++;
+        counter++; //Den sletter ikke teksten, når den er blevet vist en gang.
+        matchRepo.Delete(matchIdDelete);
+
     }
     private int counter = 0;
 
