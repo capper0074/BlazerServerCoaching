@@ -23,7 +23,7 @@ namespace BlazerServerCoaching.Data.Models
 			// Parameterless constructor for Entity Framework
 		}
 
-		public Match(int id, DateTime date, MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
+        public Match(int id, DateTime date, MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
 		{
 			Id = id;
 			Date = date;

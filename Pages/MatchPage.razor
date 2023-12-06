@@ -37,7 +37,7 @@
             {
                 <tr>
                     <td>@matchLists[i].Id</td>
-                    <td>@matchLists[i].Date</td>
+                    <td>@matchLists[i].Date.Value.ToString("dd-MM-yyyy")</td>
                     <td>@matchLists[i].Type</td>
                     <td>@matchLists[i].Oppenent</td>
                     <td>@matchLists[i].Maps</td>
@@ -161,7 +161,7 @@
 @code {
     #region Values
 
-    private DateTime? dateValue = null;
+    private DateOnly? dateValue = null;
 
     private MatchType typeValue = 0;
 
@@ -191,7 +191,9 @@
 
     private void SaveMatch()
     {
-        matchRepo.Save(dateValue, typeValue, oppenentValue, mapsValue, statusValue, tSideW, tSideL, cTSideW, cTSideL, tPistol, cTPistol);
+        DateTime? convertDateOnly = new DateTime(dateValue.Value.Year, dateValue.Value.Month, dateValue.Value.Day);
+
+        matchRepo.Save(convertDateOnly, typeValue, oppenentValue, mapsValue, statusValue, tSideW, tSideL, cTSideW, cTSideL, tPistol, cTPistol);
     }
 
     private void DeleteMatch()
