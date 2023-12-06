@@ -52,7 +52,7 @@
                     <td>@matchLists[i].CTPistol</td>
                 </tr>
             }
-            
+
 
         </tbody>
 
@@ -63,23 +63,31 @@
     <BodyTemplate>
         Fill all the boxes to add a match<br><br>
         @* https://getbootstrap.com/docs/4.0/components/forms/ se for reference *@
-        <form action="/action_page.php"> 
-            <div>
-                <div>
-                    <label for="fname">Dato:</label><br>
-                    <input class="form-control" type="date" id="date" name="date" @bind="dateValue"><br>
-                    <label for="lname">Kamp type:</label><br>
-                    <select class="form-select" aria-label="Default select example" @bind="typeValue">
+        <form action="/action_page.php">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="fname">Dato:</label>
+                    <input class="form-control" type="date" id="date" name="date" @bind="dateValue" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="lname">Kamp type:</label>
+                    <select class="custom-select form-select" aria-label="Default select example" @bind="typeValue">
+                        @*<option value=@matchType ="">Placeholder</option> dette lort virker ikke helt*@
                         <option value=@matchType =1>Faceit</option>
                         <option value=@matchType =2>Scrim</option>
                         <option value=@matchType =3>Metal</option>
                         <option value=@matchType =4>Yousee</option>
                         <option value=@matchType =5>Power</option>
                     </select><br>
+                    <div class="invalid-feedback">Example invalid custom select feedback</div>
                 </div>
-                <div>
+                <div class="col-md-6 mb-3">
                     <label for="fname">Oppenent:</label><br>
-                    <input class="form-control" type="text" id="oppenent" name="oppenent" @bind="oppenentValue"><br>
+                    <input class="form-control" type="text" id="oppenent" name="oppenent" @bind="oppenentValue" required><br>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
                     <label for="lname">Maps:</label><br>
                     <select class="form-select" aria-label="Default select example" @bind="mapsValue">
                         <option value=@matchMaps =1>Ancient</option>
@@ -90,6 +98,8 @@
                         <option value=@matchMaps =6>Mirage</option>
                         <option value=@matchMaps =7>Anubis</option>
                     </select><br>
+                </div>
+                <div class="col-md-4 mb-3">
                     <label for="lname">Status:</label><br>
                     <select class="form-select" aria-label="Default select example" @bind="statusValue">
                         <option value=@matchStatus =1>Win</option>
@@ -97,13 +107,20 @@
                         <option value=@matchStatus =3>Draw</option>
                     </select><br>
                 </div>
+            </div>
                 <div>
                     <label for="fname">T side win:</label><br>
                     <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="tSideW"><br>
+                </div>
+                <div>
                     <label for="fname">T side loss:</label><br>
                     <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="tSideL"><br>
+                </div>
+                <div>
                     <label for="fname">CT side win:</label><br>
                     <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="cTSideW"><br>
+                </div>
+                <div>
                     <label for="fname">CT side loss:</label><br>
                     <input class="form-control" type="number" id="oppenent" name="oppenent" @bind="cTSideL"><br>
                 </div>
@@ -113,14 +130,14 @@
                         <option value="True">True</option>
                         <option value="False">False</option>
                     </select><br>
+                </div>
+                <div>
                     <label for="fname">CT pistol:</label><br>
                     <select class="form-select" aria-label="Default select example" @bind="cTPistol">
                         <option value="True">True</option>
                         <option value="False">False</option>
                     </select><br>
                 </div>
-            </div>
-
         </form>
     </BodyTemplate>
     <FooterTemplate>
@@ -141,10 +158,6 @@
         <Button Color="ButtonColor.Secondary" @onclick="OnHideDeletePopupClick">Close</Button>
         <Button Color="ButtonColor.Primary" @onclick="DeleteMatch">Save changes</Button>
         <br><br>
-        @if (showText)
-        {
-            <p style="color:red">Data has been deleted</p>
-        }
     </FooterTemplate>
 </Modal>
 
@@ -187,19 +200,22 @@
 
     #endregion
 
-    private bool showText = false;
-
     private void SaveMatch()
     {
+
+        OnHideCreatePopupClick();
+
         DateTime? convertDateOnly = new DateTime(dateValue.Value.Year, dateValue.Value.Month, dateValue.Value.Day);
 
         matchRepo.Save(convertDateOnly, typeValue, oppenentValue, mapsValue, statusValue, tSideW, tSideL, cTSideW, cTSideL, tPistol, cTPistol);
+
     }
+
 
     private void DeleteMatch()
     {
-        showText = true;
-        counter++; //Den sletter ikke teksten, når den er blevet vist en gang.
+        OnHideDeletePopupClick();
+
         matchRepo.Delete(matchIdDelete);
 
     }
@@ -238,7 +254,6 @@
     private async Task OnHideDeletePopupClick()
     {
         await delete.HideAsync();
-        showText = false;
     }
 
     private bool isInitialized;
