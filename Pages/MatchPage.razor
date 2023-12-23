@@ -40,7 +40,8 @@
             @for (int i = 0; i < matchLists.Count(); i++)
             {
                 <tr>
-                    <td>@matchLists[i].Id</td>
+
+                    <td>@(showId + i)</td>
                     <td>@matchLists[i].Date.Value.ToString("dd-MM-yyyy")</td>
                     <td>@matchLists[i].Type</td>
                     <td>@matchLists[i].Oppenent</td>
@@ -54,6 +55,7 @@
                     <td>@CalculateTotalRound(matchLists[i].CTSideW, matchLists[i].CTSideL)</td>
                     <td>@matchLists[i].TPistol</td>
                     <td>@matchLists[i].CTPistol</td>
+
                 </tr>
             }
 
@@ -177,6 +179,8 @@
 
 @code {
     #region Values
+
+    private int showId = 1;
 
     private DateOnly? dateValue = null;
 
