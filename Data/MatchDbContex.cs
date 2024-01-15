@@ -10,6 +10,7 @@ namespace BlazerServerCoaching.Data
 
         }
 
+
         public DbSet<Match> Matchs { get; set; }
     }
 }
