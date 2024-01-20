@@ -13,5 +13,9 @@ namespace BlazerServerCoaching.Data
 
 
         public DbSet<Match> Matchs { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Team> Teams { get; set; }
     }
 }
