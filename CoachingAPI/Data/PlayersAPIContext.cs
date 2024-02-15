@@ -16,7 +16,7 @@ namespace CoachingAPI.Data
 
         }
 
-        public DbSet<CoachingAPI.Models.Player> Player { get; set; } = default!;
+        public DbSet<Player> Player { get; set; } = default!;
         public DbSet<Map> Map { get; set; } = default!;
         public DbSet<Match> Match { get; set; }
         public DbSet<PlayerMapStats> PlayerMapStats { get; set; }
