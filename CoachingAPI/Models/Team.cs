@@ -12,6 +12,7 @@ namespace CoachingAPI.Models
         public List<Player> Standins { get; set; } = new();
         public Player? Coach { get; set; }
 
+
         // Navigation properties ----------------------------------
         public Guid PlayerId { get; set; }
 

@@ -14,16 +14,15 @@ namespace CoachingAPI.Models
         public List<Match> Matches { get; set; } = new();
         public PlayerStats Stats { get; set; } = new();
         public List<PlayerMapStats> MapStats { get; set; } = new();
-        public List<Team> FormerTeams { get; set; } = new();
+        public List<PlayerTeamHistory> TeamHistory { get; set; } = new();
 
 
 
         // Navigation properties ----------------------------------
         //public string FormerTeamName { get; set; }
-        public string CurrentTeamId { get; set; }
-        [ForeignKey("Id")]
-        public Team CurrentTeam { get; set; }
-    
+        public string TeamId { get; set; }
+        [ForeignKey("TeamId")]
+        public Team CurrentTeam { get; set; }  
 
     }
 }

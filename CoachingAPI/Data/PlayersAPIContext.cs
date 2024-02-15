@@ -9,7 +9,7 @@ namespace CoachingAPI.Data
 {
     public class PlayersAPIContext : DbContext
     {
-        public PlayersAPIContext (DbContextOptions<PlayersAPIContext> options)
+        public PlayersAPIContext(DbContextOptions<PlayersAPIContext> options)
             : base(options)
         {
 
@@ -25,10 +25,25 @@ namespace CoachingAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<PlayerTeamHistory>()
+                .HasOne(p => p.Player)
+                .WithMany(p => p.TeamHistory)
+                .HasForeignKey(p => p.PlayerId);
+
             modelBuilder.Entity<Player>()
                 .HasOne(p => p.CurrentTeam)
-                .WithMany(t => t.Players)  // Or Standins, depending on your desired relationship
-                .HasForeignKey(p => p.CurrentTeamId);
+                .WithOne(t => t.Player)
+                .HasForeignKey<Player>(p => p.TeamId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            
+
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.Winner)
+                .WithMany()
+                .HasForeignKey(m => m.WinnerID)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
 
     }
