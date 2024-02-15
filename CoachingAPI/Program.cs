@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using CoachingAPI.Data;
 namespace CoachingAPI
 {
     public class Program
@@ -5,6 +8,8 @@ namespace CoachingAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<PlayersAPIContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PlayersAPIContext") ?? throw new InvalidOperationException("Connection string 'PlayersAPIContext' not found.")));
 
             // Add services to the container.
 

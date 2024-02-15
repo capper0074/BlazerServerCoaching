@@ -1,7 +1,11 @@
-﻿namespace CoachingAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CoachingAPI.Models
 {
     public class PlayerStats
     {
+        [Key]
+        public Guid Id { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }
         public int Kills { get; set; }

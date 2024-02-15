@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoachingAPI.Models
 {
     public class PlayerMapStats
     {
+        [Key]
+        public Guid Id { get; set; }
         public Map Map { get; set; }
 
         public int MatchesPlayed { get; set; }
