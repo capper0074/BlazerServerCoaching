@@ -7,17 +7,11 @@ namespace CoachingAPI.Models
     {
         [Key]
         public Guid Id { get; set; }
-
+        public DateTime Date { get; set; }
         public MatchPlatform MatchPlatform { get; set; }
 
+        // Navigation properties
         public List<Team> Teams { get; set; } = new List<Team>();
-        public Team Winner { get; set; }
-        public DateTime Date { get; set; }
-
-        // Navigation properties ----------------------------------
-        public Guid PlayerId { get; set; }
-
-        [ForeignKey(nameof(PlayerId))]
-        public Player Player { get; set; }
+        public Team? Winner { get; set; }
     }
 }

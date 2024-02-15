@@ -1,4 +1,7 @@
-﻿namespace CoachingAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CoachingAPI.Models
 {
     public class PlayerStats
     {
@@ -10,5 +13,11 @@
         public int KDRatio { get; set; }
         public int KRRatio { get; set; }
         public int Headshots { get; set; }
+
+        // Navigation properties
+        public Guid PlayerId { get; set; }
+
+        [ForeignKey(nameof(PlayerId))]
+        public Player Player { get; set; }
     }
 }

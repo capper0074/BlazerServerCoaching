@@ -6,16 +6,12 @@ namespace CoachingAPI.Models
     public class Team
     {
         [Key]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
         public bool IsMatchMaking { get; set; }
+
+        // Navigation properties
         public List<Player> Players { get; set; } = new();
         public List<Player> Standins { get; set; } = new();
         public Player? Coach { get; set; }
-
-        // Navigation properties ----------------------------------
-        public Guid PlayerId { get; set; }
-
-        [ForeignKey(nameof(PlayerId))]
-        public Player Player { get; set; }
     }
 }

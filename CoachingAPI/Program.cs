@@ -1,3 +1,6 @@
+using CoachingAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace CoachingAPI
 {
     public class Program
@@ -7,6 +10,7 @@ namespace CoachingAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<PlayersDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PlayersContext")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
