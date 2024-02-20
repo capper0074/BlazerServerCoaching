@@ -16,19 +16,23 @@ namespace CoachingAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Team>()
-                .HasMany(t => t.Players)
-                .WithOne(p => p.CurrentTeam);
+            modelBuilder.Entity<Player>().ToTable("Player");
+            modelBuilder.Entity<Team>().ToTable("Team");
+            modelBuilder.Entity<Match>().ToTable("Match");
+            modelBuilder.Entity<Map>().ToTable("Map");
+            modelBuilder.Entity<PlayerStats>().ToTable("PlayerStatistics");
+            modelBuilder.Entity<PlayerMapStats>().ToTable("PlayerMapStatistics");
 
-            modelBuilder.Entity<Team>()
-                .HasMany(t => t.Standins)
-                .WithOne(); // No corresponding navigation property
+            // Do something smart plz.
 
             modelBuilder.Entity<PlayerStats>()
                 .HasKey(ps => ps.PlayerId);
 
             modelBuilder.Entity<PlayerMapStats>()
                 .HasKey(pms => new { pms.PlayerId, pms.MapName });
+
+            modelBuilder.Entity<Membership>()
+                .HasKey(m => new { m.PlayerId, m.TeamName });
 
             base.OnModelCreating(modelBuilder);
         }
