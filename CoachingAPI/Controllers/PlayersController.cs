@@ -55,7 +55,7 @@ namespace CoachingAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlayer(Guid id, Player player)
         {
-            if (id != player.Id)
+            if (id != player.PlayerId)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace CoachingAPI.Controllers
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
+            return CreatedAtAction("GetPlayer", new { id = player.PlayerId }, player);
         }
 
         // DELETE: api/Players/5
@@ -118,7 +118,7 @@ namespace CoachingAPI.Controllers
 
         private bool PlayerExists(Guid id)
         {
-            return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Players?.Any(e => e.PlayerId == id)).GetValueOrDefault();
         }
     }
 }
