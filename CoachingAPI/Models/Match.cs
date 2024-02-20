@@ -10,8 +10,12 @@ namespace CoachingAPI.Models
         public DateTime Date { get; set; }
         public MatchPlatform MatchPlatform { get; set; }
 
+
         // Navigation properties
-        public List<Team> Teams { get; set; } = new List<Team>();
+        public string? WinnerTeamName { get; set; }
+
+        public List<Team> Teams { get; set; } = new();
+        [ForeignKey(nameof(WinnerTeamName))]
         public Team? Winner { get; set; }
     }
 }

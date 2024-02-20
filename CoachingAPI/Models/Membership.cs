@@ -2,6 +2,13 @@
 
 namespace CoachingAPI.Models
 {
+    public enum MembershipType
+    {
+        ActiveRoster,
+        StandIn,
+        Coach
+    }
+
     public class Membership
     {
         public DateTime JoinDate { get; set; }

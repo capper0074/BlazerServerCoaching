@@ -10,6 +10,8 @@ namespace CoachingAPI.Models
         public bool IsMatchMaking { get; set; }
 
         public List<Membership> Memberships { get; set; } = new();
+        public List<Match> Matches { get; set; } = new();
+        public List<Match> WonMatches { get; set; } = new();
 
         // Navigation properties
         //public List<Player> Players { get; set; } = new();

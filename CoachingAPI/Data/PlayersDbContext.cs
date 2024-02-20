@@ -1,5 +1,6 @@
 ﻿using CoachingAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace CoachingAPI.Data
 {
@@ -33,6 +34,16 @@ namespace CoachingAPI.Data
 
             modelBuilder.Entity<Membership>()
                 .HasKey(m => new { m.PlayerId, m.TeamName });
+
+            modelBuilder.Entity<Match>() // voodoo magic
+                .HasMany(m => m.Teams)
+                .WithMany(t => t.Matches);
+
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.WonMatches) // New navigation property in Team
+                .WithOne(m => m.Winner) // Existing navigation property in Match
+                .HasForeignKey(m => m.WinnerTeamName); // Add WinnerId property in Match
+
 
             base.OnModelCreating(modelBuilder);
         }

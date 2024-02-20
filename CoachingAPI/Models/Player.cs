@@ -23,11 +23,11 @@ namespace CoachingAPI.Models
         #endregion
 
         // Navigation properties
-        //public List<Match> Matches { get; set; } = new();
         public PlayerStats Stats { get; set; }
         public List<PlayerMapStats> MapStats { get; set; } = new();
-
         public List<Membership> Memberships { get; set; } = new();
+
+        //public List<Match> Matches { get; set; } = new();
         //public List<Team> FormerTeams { get; set; } = new();
         //public Team CurrentTeam { get; set; }
     }
