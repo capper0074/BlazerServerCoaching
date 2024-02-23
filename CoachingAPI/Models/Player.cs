@@ -12,7 +12,7 @@ namespace CoachingAPI.Models
 
         // Navigation properties
         public PlayerStats Stats { get; set; }
-        public List<PlayerMapStats> MapStats { get; set; } = new();
+        
         public List<Membership> Memberships { get; set; } = new();
     }
 }

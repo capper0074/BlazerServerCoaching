@@ -13,6 +13,7 @@ namespace CoachingAPI.Models
         public int KDRatio { get; set; }
         public int KRRatio { get; set; }
         public int Headshots { get; set; }
+        public List<PlayerMapStats> MapStats { get; set; } = new();
 
         // Navigation properties
         public Guid PlayerId { get; set; }

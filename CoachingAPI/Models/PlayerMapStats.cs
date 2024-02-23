@@ -23,7 +23,7 @@ namespace CoachingAPI.Models
         public MapName MapName { get; set; }
 
         [ForeignKey(nameof(PlayerId))]
-        public Player Player { get; set; }
+        public PlayerStats Player { get; set; }
         [ForeignKey(nameof(MapName))]
         public Map Map { get; set; }
     }
