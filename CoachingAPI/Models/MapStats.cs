@@ -2,7 +2,7 @@
 
 namespace CoachingAPI.Models
 {
-    public class PlayerMapStats
+    public class MapStats
     {
         public int MatchesPlayed { get; set; }
         public int Wins { get; set; }
@@ -19,12 +19,12 @@ namespace CoachingAPI.Models
         public int TPistolRoundsLost { get; set; }
 
         // Navigation properties
-        public Guid PlayerId { get; set; }
-        public MapName MapName { get; set; }
+        public Guid FK_GeneralStatsId { get; set; }
+        public MapName FK_MapName { get; set; }
 
-        [ForeignKey(nameof(PlayerId))]
-        public PlayerStats Player { get; set; }
-        [ForeignKey(nameof(MapName))]
+        [ForeignKey(nameof(FK_GeneralStatsId))]
+        public GeneralStats RelatedGeneralStats { get; set; }
+        [ForeignKey(nameof(FK_MapName))]
         public Map Map { get; set; }
     }
 }
