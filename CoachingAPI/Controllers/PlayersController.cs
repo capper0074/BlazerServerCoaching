@@ -49,6 +49,40 @@ namespace CoachingAPI.Controllers
 
             return player;
         }
+        //Get: api/Players/playerStats/5
+        [HttpGet("PlayerStats/{id}")]
+        public async Task<ActionResult<PlayerStats>> GetPlayerStats(Guid id)
+        {
+            if (_context.PlayerStats == null)
+            {
+                return NotFound();
+            }
+            var playerstats = await _context.PlayerStats.FindAsync(id);
+
+            if (playerstats == null)
+            {
+                return NotFound();
+            }
+
+            return playerstats;
+        }
+        //Get: api/Players/PlayerMap/5
+        [HttpGet("PlayerMapStats/{id}")]
+        public async Task<ActionResult<PlayerMapStats>> GetPlayerMap(Guid id)
+        {
+            if (_context.PlayerMapStats == null)
+            {
+                return NotFound();
+            }
+            var playermapstats = await _context.PlayerMapStats.FindAsync(id);
+
+            if (playermapstats == null)
+            {
+                return NotFound();
+            }
+
+            return playermapstats;
+        }
 
         // PUT: api/Players/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
