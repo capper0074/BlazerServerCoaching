@@ -43,11 +43,10 @@ namespace CoachingAPI.Data
                 .WithMany(t => t.Matches); // Team has many relationships to Match, via Matches property
 
             // Define one-to-many relationship between Team and Match.Winner
-            modelBuilder.Entity<Team>()
-                .HasMany(t => t.WonMatches) // Team has many relationships to Match, via WonMatches property
-                .WithOne(m => m.Winner) // Match has a single relationship to Team, via Winner property
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.Winner) // Team has many relationships to Match, via WonMatches property
+                .WithMany() // Match has a single relationship to Team, via Winner property
                 .HasForeignKey(m => m.WinnerTeamName); // Specify the foreign key property in Match
-
 
             base.OnModelCreating(modelBuilder);
         }

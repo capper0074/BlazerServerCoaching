@@ -11,6 +11,6 @@ namespace CoachingAPI.Models
         // Navigation properties
         public List<Membership> Memberships { get; set; } = new();
         public List<Match> Matches { get; set; } = new();
-        public List<Match> WonMatches { get; set; } = new();
+        // public List<Match> WonMatches { get; set; } = new();
     }
 }

@@ -209,7 +209,7 @@ namespace CoachingAPI.Migrations
 
                     b.HasIndex("TeamsName");
 
-                    b.ToTable("MatchTeam");
+                    b.ToTable("MatchTeam", (string)null);
                 });
 
             modelBuilder.Entity("CoachingAPI.Models.Match", b =>
