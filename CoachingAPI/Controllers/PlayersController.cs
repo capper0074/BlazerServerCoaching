@@ -51,13 +51,13 @@ namespace CoachingAPI.Controllers
         }
         //Get: api/Players/playerStats/5
         [HttpGet("PlayerStats/{id}")]
-        public async Task<ActionResult<PlayerStats>> GetPlayerStats(Guid id)
+        public async Task<ActionResult<GeneralStats>> GetPlayerStats(Guid id)
         {
-            if (_context.PlayerStats == null)
+            if (_context.GeneralStats == null)
             {
                 return NotFound();
             }
-            var playerstats = await _context.PlayerStats.FindAsync(id);
+            var playerstats = await _context.GeneralStats.FindAsync(id);
 
             if (playerstats == null)
             {
@@ -68,13 +68,13 @@ namespace CoachingAPI.Controllers
         }
         //Get: api/Players/PlayerMap/5
         [HttpGet("PlayerMapStats/{id}")]
-        public async Task<ActionResult<PlayerMapStats>> GetPlayerMap(Guid id)
+        public async Task<ActionResult<MapStats>> GetPlayerMap(Guid id)
         {
-            if (_context.PlayerMapStats == null)
+            if (_context.MapStats == null)
             {
                 return NotFound();
             }
-            var playermapstats = await _context.PlayerMapStats.FindAsync(id);
+            var playermapstats = await _context.MapStats.FindAsync(id);
 
             if (playermapstats == null)
             {
