@@ -19,6 +19,8 @@ namespace CoachingAPI.Models
         public DateTime Date { get; set; }
         public MatchPlatform MatchPlatform { get; set; }
 
+        public Map Map { get; set; }
+
         // Navigation properties
         public Guid FK_WinnerTeamId { get; set; }
 

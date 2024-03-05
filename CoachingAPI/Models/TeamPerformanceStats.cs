@@ -4,9 +4,9 @@ namespace CoachingAPI.Models
 {
     public class TeamPerformanceStats
     {
-        public int Kills { get; set; }
-        public int Deaths { get; set; }
-        public int Assists { get; set; }
+        //public int Kills { get; set; }
+        //public int Deaths { get; set; }
+        //public int Assists { get; set; }
         //public double KDRatio { get; set; }
         //public double KRRatio { get; set; }
         //public int Headshots { get; set; }

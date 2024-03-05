@@ -17,7 +17,7 @@ namespace CoachingAPI.Models
         public int TRoundsPlayed { get; set; }
         public int CtPistolRoundsPlayed { get; set; }
         public int TPistolRoundsPlayed { get; set; }
-        public int CtPistolRoundsWon { get; set; }
+        public int CtPistolRoundsWins { get; set; }
         public int CtPistolRoundsLost { get; set; }
         public int TPistolRoundsWins { get; set; }
         public int TPistolRoundsLost { get; set; }

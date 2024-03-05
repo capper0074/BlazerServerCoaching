@@ -27,39 +27,66 @@ namespace CoachingAPI.DataFix
                 return false;
             }
 
-            foreach(Team team in match.Teams)
+            //foreach(Team team in match.Teams)
+            //{
+            //    bool team1Exist = _context.Teams.Any(t => t.Name == team.Name);
+            //    if(team1Exist ==false)
+            //    {
+            //        _context.Teams.Add(team);
+            //    }          
+               
+            //}
+            if(match.Winner.Name == match.Teams[0].Name)
             {
-                bool team1Exist = _context.Teams.Any(t => t.Name == team.Name);
-                if(team1Exist ==false)
-                {
-                    _context.Teams.Add(team);
-                }
-                if (match.Winner.Name == team.Name)
-                {
-                   
-                }
-               
-               
+                mapStats1.Wins++;
+                generalStats1.Wins++;
+                mapStats2.Losses++;
+                generalStats2.Losses++;
             }
+            else
+            {
+                mapStats1.Losses++;
+                generalStats1.Losses++;
+                mapStats2.Wins++;
+                generalStats2.Wins++;
+            }
+            if(match.TeamPerformanceStats.CTPistolRoundWon > 0)
+            {                
+                mapStats2.CtPistolRoundsLost += 1;
+                mapStats1.CtPistolRoundsWins += 1;
+            }
+            else
+            {
+                mapStats1.CtPistolRoundsLost += 1;
+                mapStats2.CtPistolRoundsWins += 1;
+            }
+            if (match.TeamPerformanceStats.TPistolRoundWon > 0)
+            {
+                mapStats2.TPistolRoundsLost += 1;
+                mapStats1.TPistolRoundsWins += 1;   
+            }
+            else
+            {
+                mapStats1.TPistolRoundsLost += 1;
+                mapStats2.TPistolRoundsWins += 1;
+            }
+            mapStats1.FK_GeneralStatsId = (Guid)match.Teams[0].FK_GeneralStatsId;
+            mapStats1.FK_MapName = match.Map.Name;
             mapStats1.TotalRoundsPlayed = match.TeamPerformanceStats.CTRoundsPlayed + match.TeamPerformanceStats.TRoundsPlayed;
             mapStats1.CtRoundsPlayed += match.TeamPerformanceStats.CTRoundsPlayed;
-            mapStats1.CtPistolRoundsPlayed++;
-            mapStats1.CtPistolRoundsWon += match.TeamPerformanceStats.CTPistolRoundWon;
+            mapStats1.CtPistolRoundsPlayed++;            
             mapStats1.TRoundsPlayed += match.TeamPerformanceStats.TRoundsPlayed;
             mapStats1.TPistolRoundsPlayed++;
-            mapStats1.TPistolRoundsWins += match.TeamPerformanceStats.TPistolRoundWon;
+            match.TeamPerformanceStats.FK_TeamId = (Guid)match.Teams[0].Id;
+            _context.Update(mapStats1); //update Mapstats for the team[0]
+            _context.Update(generalStats1);
+            _context.Update(match.TeamPerformanceStats);
+
 
             mapStats2.TotalRoundsPlayed = mapStats1.TotalRoundsPlayed;
             mapStats2.CtRoundsPlayed += mapStats1.TRoundsPlayed;
             mapStats2.CtPistolRoundsPlayed++;
-            if(match.TeamPerformanceStats.CTPistolRoundWon > 0)
-            {
-                mapStats2.CtPistolRoundsWon +=0;
-            }
-            else
-            {
-                mapStats2.CtPistolRoundsWon= 1;
-            }
+            
 
             return true;
         }
