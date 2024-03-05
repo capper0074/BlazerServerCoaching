@@ -178,14 +178,14 @@ namespace CoachingAPI.Migrations
                         name: "FK_MatchTeam_Match_MatchesMatchId",
                         column: x => x.MatchesMatchId,
                         principalTable: "Match",
-                        principalColumn: "MatchId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MatchId"
+                        );
                     table.ForeignKey(
                         name: "FK_MatchTeam_Team_TeamsId",
                         column: x => x.TeamsId,
                         principalTable: "Team",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id"
+                        );
                 });
 
             migrationBuilder.CreateTable(
@@ -241,14 +241,12 @@ namespace CoachingAPI.Migrations
                         name: "FK_TeamPerformanceStats_Match_FK_MatchId",
                         column: x => x.FK_MatchId,
                         principalTable: "Match",
-                        principalColumn: "MatchId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MatchId");
                     table.ForeignKey(
                         name: "FK_TeamPerformanceStats_Team_FK_TeamId",
                         column: x => x.FK_TeamId,
                         principalTable: "Team",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
