@@ -6,6 +6,7 @@ namespace CoachingAPI.Models
     public class Team
     {
         [Key]
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public bool IsMatchMaking { get; set; }
 

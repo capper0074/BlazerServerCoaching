@@ -78,6 +78,9 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("FK_MapName")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Assists")
+                        .HasColumnType("int");
+
                     b.Property<int>("CtPistolRoundsLost")
                         .HasColumnType("int");
 
@@ -88,6 +91,12 @@ namespace CoachingAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CtRoundsPlayed")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Deaths")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Kills")
                         .HasColumnType("int");
 
                     b.Property<int>("Losses")
@@ -130,15 +139,15 @@ namespace CoachingAPI.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FK_WinnerTeamName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("FK_WinnerTeamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("MatchPlatform")
                         .HasColumnType("int");
 
                     b.HasKey("MatchId");
 
-                    b.HasIndex("FK_WinnerTeamName");
+                    b.HasIndex("FK_WinnerTeamId");
 
                     b.ToTable("Match", (string)null);
                 });
@@ -148,8 +157,8 @@ namespace CoachingAPI.Migrations
                     b.Property<Guid>("PlayerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TeamName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("datetime2");
@@ -160,9 +169,9 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("MembershipType")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayerId", "TeamName");
+                    b.HasKey("PlayerId", "TeamId");
 
-                    b.HasIndex("TeamName");
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Membership", (string)null);
                 });
@@ -227,8 +236,9 @@ namespace CoachingAPI.Migrations
 
             modelBuilder.Entity("CoachingAPI.Models.Team", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("FK_GeneralStatsId")
                         .HasColumnType("uniqueidentifier");
@@ -236,7 +246,11 @@ namespace CoachingAPI.Migrations
                     b.Property<bool>("IsMatchMaking")
                         .HasColumnType("bit");
 
-                    b.HasKey("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("FK_GeneralStatsId")
                         .IsUnique()
@@ -247,8 +261,8 @@ namespace CoachingAPI.Migrations
 
             modelBuilder.Entity("CoachingAPI.Models.TeamPerformanceStats", b =>
                 {
-                    b.Property<string>("FK_TeamName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("FK_TeamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FK_MatchId")
                         .HasColumnType("uniqueidentifier");
@@ -268,15 +282,6 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("Deaths")
                         .HasColumnType("int");
 
-                    b.Property<int>("Headshots")
-                        .HasColumnType("int");
-
-                    b.Property<double>("KDRatio")
-                        .HasColumnType("float");
-
-                    b.Property<double>("KRRatio")
-                        .HasColumnType("float");
-
                     b.Property<int>("Kills")
                         .HasColumnType("int");
 
@@ -289,9 +294,10 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("TRoundsWon")
                         .HasColumnType("int");
 
-                    b.HasKey("FK_TeamName", "FK_MatchId");
+                    b.HasKey("FK_TeamId", "FK_MatchId");
 
-                    b.HasIndex("FK_MatchId");
+                    b.HasIndex("FK_MatchId")
+                        .IsUnique();
 
                     b.ToTable("TeamPerformanceStats");
                 });
@@ -301,12 +307,12 @@ namespace CoachingAPI.Migrations
                     b.Property<Guid>("MatchesMatchId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TeamsName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("TeamsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("MatchesMatchId", "TeamsName");
+                    b.HasKey("MatchesMatchId", "TeamsId");
 
-                    b.HasIndex("TeamsName");
+                    b.HasIndex("TeamsId");
 
                     b.ToTable("MatchTeam");
                 });
@@ -334,7 +340,9 @@ namespace CoachingAPI.Migrations
                 {
                     b.HasOne("CoachingAPI.Models.Team", "Winner")
                         .WithMany()
-                        .HasForeignKey("FK_WinnerTeamName");
+                        .HasForeignKey("FK_WinnerTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Winner");
                 });
@@ -349,7 +357,7 @@ namespace CoachingAPI.Migrations
 
                     b.HasOne("CoachingAPI.Models.Team", "Team")
                         .WithMany("Memberships")
-                        .HasForeignKey("TeamName")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -398,14 +406,14 @@ namespace CoachingAPI.Migrations
             modelBuilder.Entity("CoachingAPI.Models.TeamPerformanceStats", b =>
                 {
                     b.HasOne("CoachingAPI.Models.Match", "RelatedMatch")
-                        .WithMany("TeamPerformanceStats")
-                        .HasForeignKey("FK_MatchId")
+                        .WithOne("TeamPerformanceStats")
+                        .HasForeignKey("CoachingAPI.Models.TeamPerformanceStats", "FK_MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoachingAPI.Models.Team", "RelatedTeam")
                         .WithMany()
-                        .HasForeignKey("FK_TeamName")
+                        .HasForeignKey("FK_TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -424,7 +432,7 @@ namespace CoachingAPI.Migrations
 
                     b.HasOne("CoachingAPI.Models.Team", null)
                         .WithMany()
-                        .HasForeignKey("TeamsName")
+                        .HasForeignKey("TeamsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -438,7 +446,8 @@ namespace CoachingAPI.Migrations
                 {
                     b.Navigation("PlayerPerformanceStats");
 
-                    b.Navigation("TeamPerformanceStats");
+                    b.Navigation("TeamPerformanceStats")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CoachingAPI.Models.Player", b =>

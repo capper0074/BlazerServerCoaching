@@ -20,12 +20,12 @@ namespace CoachingAPI.Models
         public MatchPlatform MatchPlatform { get; set; }
 
         // Navigation properties
-        public string? FK_WinnerTeamName { get; set; }
+        public Guid FK_WinnerTeamId { get; set; }
 
         public List<Team> Teams { get; set; } = new();
-        [ForeignKey(nameof(FK_WinnerTeamName))]
+        [ForeignKey(nameof(FK_WinnerTeamId))]
         public Team? Winner { get; set; }
         public List<PlayerPerformanceStats> PlayerPerformanceStats { get; set; }
-        public List<TeamPerformanceStats> TeamPerformanceStats { get; set; }
+        public TeamPerformanceStats TeamPerformanceStats { get; set; }
     }
 }

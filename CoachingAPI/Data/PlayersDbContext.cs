@@ -36,13 +36,13 @@ namespace CoachingAPI.Data
 
             // Define composite primary key for Membership
             modelBuilder.Entity<Membership>()
-                .HasKey(m => new { m.PlayerId, m.TeamName });
+                .HasKey(m => new { m.PlayerId, m.TeamId });
 
             modelBuilder.Entity<PlayerPerformanceStats>()
                 .HasKey(pps => new { pps.FK_PlayerId, pps.FK_MatchId });
 
             modelBuilder.Entity<TeamPerformanceStats>()
-                .HasKey(tps => new { tps.FK_TeamName, tps.FK_MatchId });
+                .HasKey(tps => new { tps.FK_TeamId, tps.FK_MatchId });
 
             // Define many-to-many relationship between Match and Team
             modelBuilder.Entity<Match>()
@@ -52,15 +52,17 @@ namespace CoachingAPI.Data
             // Define one-to-many relationship between Team and Match.Winner
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.Winner) // Each Match has one winner
-                .WithMany() // The teams don't keep track of what matches they've won, as they have no navigation properties
-                .HasForeignKey(m => m.FK_WinnerTeamName); // Specifies the foreign key property in Match
+                .WithMany()// The teams don't keep track of what matches they've won, as they have no navigation properties
+                .HasForeignKey(m => m.FK_WinnerTeamId); // Specifies the foreign key property in Match
+                
+                
 
             modelBuilder.Entity<Match>()
                 .HasMany(m => m.PlayerPerformanceStats)
                 .WithOne(pps => pps.RelatedMatch);
 
             modelBuilder.Entity<Match>()
-                .HasMany(m => m.TeamPerformanceStats)
+                .HasOne(m => m.TeamPerformanceStats)
                 .WithOne(tps => tps.RelatedMatch);
 
             modelBuilder.Entity<Team>()

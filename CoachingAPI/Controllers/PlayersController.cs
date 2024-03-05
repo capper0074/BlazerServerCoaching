@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using CoachingAPI.Data;
+using CoachingAPI.DataFix;
+using CoachingAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CoachingAPI.Data;
-using CoachingAPI.Models;
 
 namespace CoachingAPI.Controllers
 {
@@ -15,20 +11,22 @@ namespace CoachingAPI.Controllers
     public class PlayersController : ControllerBase
     {
         private readonly PlayersDbContext _context;
+        private readonly DataBase_update _dataBase_Update1;
 
-        public PlayersController(PlayersDbContext context)
+        public PlayersController(PlayersDbContext context, DataBase_update dataBase_Update)
         {
             _context = context;
+            _dataBase_Update1 = dataBase_Update;
         }
 
         // GET: api/Players
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-          if (_context.Players == null)
-          {
-              return NotFound();
-          }
+            if (_context.Players == null)
+            {
+                return NotFound();
+            }
             return await _context.Players.ToListAsync();
         }
 
@@ -36,10 +34,10 @@ namespace CoachingAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Player>> GetPlayer(Guid id)
         {
-          if (_context.Players == null)
-          {
-              return NotFound();
-          }
+            if (_context.Players == null)
+            {
+                return NotFound();
+            }
             var player = await _context.Players.FindAsync(id);
 
             if (player == null)
@@ -49,9 +47,9 @@ namespace CoachingAPI.Controllers
 
             return player;
         }
-        //Get: api/Players/playerStats/5
-        [HttpGet("PlayerStats/{id}")]
-        public async Task<ActionResult<GeneralStats>> GetPlayerStats(Guid id)
+        //Get: api/Players/PlayerGeneralStats/5
+        [HttpGet("PlayerGeneralStats/{id}")]
+        public async Task<ActionResult<GeneralStats>> GetPlayerGeneralStats(Guid id)
         {
             if (_context.GeneralStats == null)
             {
@@ -66,22 +64,23 @@ namespace CoachingAPI.Controllers
 
             return playerstats;
         }
-        //Get: api/Players/PlayerMap/5
-        [HttpGet("PlayerMapStats/{id}")]
-        public async Task<ActionResult<MapStats>> GetPlayerMap(Guid id)
+       
+        //Get: api/Players/TeamGeneralStats/5
+        [HttpGet("TeamGeneralStats/{id}")]
+        public async Task<ActionResult<GeneralStats>> GetTeamGeneralStats(string id)
         {
-            if (_context.MapStats == null)
+            if (_context.GeneralStats == null)
             {
                 return NotFound();
             }
-            var playermapstats = await _context.MapStats.FindAsync(id);
+            var teamstats = await _context.GeneralStats.FindAsync(id);
 
-            if (playermapstats == null)
+            if (teamstats == null)
             {
                 return NotFound();
             }
 
-            return playermapstats;
+            return teamstats;
         }
 
         // PUT: api/Players/5
@@ -115,20 +114,34 @@ namespace CoachingAPI.Controllers
             return NoContent();
         }
 
+
+
         // POST: api/Players
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Player>> PostPlayer(Player player)
         {
-          if (_context.Players == null)
-          {
-              return Problem("Entity set 'PlayersDbContext.Players'  is null.");
-          }
+            if (_context.Players == null)
+            {
+                return Problem("Entity set 'PlayersDbContext.Players'  is null.");
+            }
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPlayer", new { id = player.PlayerId }, player);
         }
+
+        //POST: apy/Players/match/
+        [HttpPost]
+        public async Task<ActionResult> PostMatch(Match match)
+        {
+
+
+
+            return CreatedAtAction("GetMatch", new { id = match.MatchId }, match);
+        }
+
+
 
         // DELETE: api/Players/5
         [HttpDelete("{id}")]

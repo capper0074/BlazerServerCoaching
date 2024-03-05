@@ -18,11 +18,11 @@ namespace CoachingAPI.Models
 
         // Navigation properties
         public Guid PlayerId { get; set; }
-        public string TeamName { get; set; }
+        public Guid TeamId { get; set; }
 
         [ForeignKey(nameof(PlayerId))]
         public Player Player { get; set; }
-        [ForeignKey(nameof(TeamName))]
+        [ForeignKey(nameof(TeamId))]
         public Team Team { get; set; }
     }
 }
