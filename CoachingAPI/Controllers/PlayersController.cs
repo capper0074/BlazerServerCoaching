@@ -132,14 +132,11 @@ namespace CoachingAPI.Controllers
         }
 
         //POST: apy/Players/match/
-        [HttpPost]
-        public async Task<ActionResult> PostMatch(Match match)
-        {
-
-
-
-            return CreatedAtAction("GetMatch", new { id = match.MatchId }, match);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult> PostMatch(Match match)
+        //{
+        //    return CreatedAtAction("GetMatch", new { id = match.MatchId }, match);
+        //}
 
 
 
