@@ -2,7 +2,7 @@
 
 namespace CoachingAPI.Models
 {
-    public class PlayerPerformanceStats
+    public class PlayerMatchStats
     {
         public int Kills { get; set; }
         public int Deaths { get; set; }

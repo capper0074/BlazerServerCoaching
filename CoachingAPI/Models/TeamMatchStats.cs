@@ -2,7 +2,7 @@
 
 namespace CoachingAPI.Models
 {
-    public class TeamPerformanceStats
+    public class TeamMatchStats
     {
         //public int Kills { get; set; }
         //public int Deaths { get; set; }
@@ -12,7 +12,7 @@ namespace CoachingAPI.Models
         //public int Headshots { get; set; }
 
         public int TRoundsPlayed { get; set; }
-        public int TRoundsWon { get; set; }
+        public int TRoundsWins { get; set; }
         public int TPistolRoundWon { get; set; }
         public int CTRoundsPlayed { get; set; }
         public int CTRoundsWon { get; set; }

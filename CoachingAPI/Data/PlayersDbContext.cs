@@ -16,8 +16,8 @@ namespace CoachingAPI.Data
         public DbSet<Map> Maps { get; set; }
         public DbSet<GeneralStats> GeneralStats { get; set; }
         public DbSet<MapStats> MapStats { get; set; }
-        public DbSet<PlayerPerformanceStats> PlayerPerformanceStats { get; set; }
-        public DbSet<TeamPerformanceStats> TeamPerformanceStats { get; set; }
+        public DbSet<PlayerMatchStats> PlayerPerformanceStats { get; set; }
+        public DbSet<TeamMatchStats> TeamPerformanceStats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,10 +38,10 @@ namespace CoachingAPI.Data
             modelBuilder.Entity<Membership>()
                 .HasKey(m => new { m.PlayerId, m.TeamId });
 
-            modelBuilder.Entity<PlayerPerformanceStats>()
+            modelBuilder.Entity<PlayerMatchStats>()
                 .HasKey(pps => new { pps.FK_PlayerId, pps.FK_MatchId });
 
-            modelBuilder.Entity<TeamPerformanceStats>()
+            modelBuilder.Entity<TeamMatchStats>()
                 .HasKey(tps => new { tps.FK_TeamId, tps.FK_MatchId });
 
             // Define many-to-many relationship between Match and Team
@@ -58,11 +58,11 @@ namespace CoachingAPI.Data
                 
 
             modelBuilder.Entity<Match>()
-                .HasMany(m => m.PlayerPerformanceStats)
+                .HasMany(m => m.PlayerMatchStats)
                 .WithOne(pps => pps.RelatedMatch);
 
             modelBuilder.Entity<Match>()
-                .HasOne(m => m.TeamPerformanceStats)
+                .HasOne(m => m.TeamMatchStats)
                 .WithOne(tps => tps.RelatedMatch);
 
             modelBuilder.Entity<Team>()

@@ -8,9 +8,9 @@ namespace CoachingAPI.Models
         public int Wins { get; set; }
         public int Losses { get; set; }
 
-        public int? Kills { get; set; }
-        public int? Deaths { get; set; }
-        public int? Assists { get; set; }
+        public int Kills { get; set; }
+        public int Deaths { get; set; }
+        public int Assists { get; set; }
 
         public int TotalRoundsPlayed { get; set; }
         public int CtRoundsPlayed { get; set; }

@@ -18,7 +18,8 @@ namespace CoachingAPI.Models
         public Guid MatchId { get; set; }
         public DateTime Date { get; set; }
         public MatchPlatform MatchPlatform { get; set; }
-
+        public int FK_MapName { get; set; }
+        [ForeignKey(nameof(FK_MapName))]
         public Map Map { get; set; }
 
         // Navigation properties
@@ -27,7 +28,7 @@ namespace CoachingAPI.Models
         public List<Team> Teams { get; set; } = new();
         [ForeignKey(nameof(FK_WinnerTeamId))]
         public Team? Winner { get; set; }
-        public List<PlayerPerformanceStats> PlayerPerformanceStats { get; set; }
-        public TeamPerformanceStats TeamPerformanceStats { get; set; }
+        public List<PlayerMatchStats> PlayerMatchStats { get; set; }
+        public TeamMatchStats TeamMatchStats { get; set; }
     }
 }
