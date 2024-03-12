@@ -23,8 +23,6 @@ namespace CoachingAPI.Models
         public int TPistolRoundsLost { get; set; }
 
         // Navigation properties
-        public Guid FK_GeneralStatsId { get; set; }
-        public MapName FK_MapName { get; set; }
         public Map Map { get; set; }
     }
 }

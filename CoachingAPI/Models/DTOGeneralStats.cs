@@ -5,9 +5,6 @@ namespace CoachingAPI.Models
 {
     public class DTOGeneralStats
     {
-        [Key]
-        public Guid Id { get; set; }
-
         public int Wins { get; set; }
         public int Losses { get; set; }
         public int Kills { get; set; }

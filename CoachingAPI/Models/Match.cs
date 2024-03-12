@@ -18,7 +18,7 @@ namespace CoachingAPI.Models
         public Guid MatchId { get; set; }
         public DateTime Date { get; set; }
         public MatchPlatform MatchPlatform { get; set; }
-        public int FK_MapName { get; set; }
+        public MapName FK_MapName { get; set; }
         [ForeignKey(nameof(FK_MapName))]
         public Map Map { get; set; }
 
