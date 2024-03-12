@@ -27,8 +27,8 @@ namespace CoachingAPI.Models
 
         public List<Team> Teams { get; set; } = new();
         [ForeignKey(nameof(FK_WinnerTeamId))]
-        public Team? Winner { get; set; }
-        public List<PlayerMatchStats> PlayerMatchStats { get; set; }
-        public TeamMatchStats TeamMatchStats { get; set; }
+        public Team Winner { get; set; }
+        public List<PlayerMatchStats>? PlayerMatchStats { get; set; }
+        public TeamMatchStats? TeamMatchStats { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CoachingAPI.Data;
-using CoachingAPI.DataFix;
 using CoachingAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +10,11 @@ namespace CoachingAPI.Controllers
     public class PlayersController : ControllerBase
     {
         private readonly PlayersDbContext _context;
-        private readonly DataBase_update _dataBase_Update1;
 
-        public PlayersController(PlayersDbContext context, DataBase_update dataBase_Update)
+        public PlayersController(PlayersDbContext context)
         {
             _context = context;
-            _dataBase_Update1 = dataBase_Update;
+            
         }
 
         // GET: api/Players
@@ -97,9 +95,13 @@ namespace CoachingAPI.Controllers
         }
 
         //POST: apy/Players/match/
-        //[HttpPost]
+        //[HttpPost ("Matchpost")]
         //public async Task<ActionResult> PostMatch(Match match)
         //{
+            
+        //    _context.Add(match);
+        //    _context.SaveChanges();
+            
         //    return CreatedAtAction("GetMatch", new { id = match.MatchId }, match);
         //}
 

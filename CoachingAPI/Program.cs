@@ -1,5 +1,4 @@
 using CoachingAPI.Data;
-using CoachingAPI.DataFix;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoachingAPI
@@ -18,7 +17,6 @@ namespace CoachingAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddTransient<DataBase_update>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
