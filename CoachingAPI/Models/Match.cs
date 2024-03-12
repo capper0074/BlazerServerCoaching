@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SQLitePCL;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoachingAPI.Models
@@ -30,5 +31,18 @@ namespace CoachingAPI.Models
         public Team Winner { get; set; }
         public List<PlayerMatchStats>? PlayerMatchStats { get; set; }
         public TeamMatchStats? TeamMatchStats { get; set; }
+
+        public Match(DateTime date, MatchPlatform matchPlatform, Map map, Guid fK_WinnerTeamId, List<Team> teams, Team winner)
+        {
+            
+            Date = date;
+            MatchPlatform = matchPlatform;
+            Map = map;
+            FK_WinnerTeamId = fK_WinnerTeamId;
+            Teams = teams;
+            Winner = winner;
+            
+                 
+        }
     }
 }

@@ -95,15 +95,17 @@ namespace CoachingAPI.Controllers
         }
 
         //POST: apy/Players/match/
-        //[HttpPost ("Matchpost")]
-        //public async Task<ActionResult> PostMatch(Match match)
-        //{
-            
-        //    _context.Add(match);
-        //    _context.SaveChanges();
-            
-        //    return CreatedAtAction("GetMatch", new { id = match.MatchId }, match);
-        //}
+        [HttpPost("Matchpost")]
+        public async Task<ActionResult> PostMatch(DateTime date, MatchPlatform matchPlatform, MapName map, Guid fK_WinnerTeamId, List<Guid> teams, Guid winner)
+        {
+            Team winnerteam = await _context.Teams.FindAsync(winner);
+            List<Team> matchteams = _context.Teams.Where(t => teams.Contains(t.Id)).ToList();
+            Map mapused = _context.Maps.Find(map);
+            _context.Add(new Match(date, matchPlatform,mapused,fK_WinnerTeamId,matchteams,winnerteam));
+            _context.SaveChanges();
+            return Ok();
+
+        }
 
 
 
