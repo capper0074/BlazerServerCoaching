@@ -12,10 +12,6 @@ namespace CoachingAPI.Models
         public bool IsCoach { get; set; }
 
         // Navigation properties
-        public Guid? FK_GeneralStatsId { get; set; }
-
-        [ForeignKey(nameof(FK_GeneralStatsId))]
-        public GeneralStats Stats { get; set; }
         public List<Membership> Memberships { get; set; } = new();
     }
 }

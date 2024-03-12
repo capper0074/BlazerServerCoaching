@@ -14,10 +14,13 @@ namespace CoachingAPI.Models
         // Navigation properties
         public Guid FK_PlayerId { get; set; }
         public Guid FK_MatchId { get; set; }
+        public Guid FK_TeamMatchStats_TeamId { get; set; }
 
         [ForeignKey(nameof(FK_PlayerId))]
         public Player RelatedPlayer { get; set; }
         [ForeignKey(nameof(FK_MatchId))]
         public Match RelatedMatch { get; set; }
+
+        public TeamMatchStats TeamMatchStats { get; set;}
     }
 }

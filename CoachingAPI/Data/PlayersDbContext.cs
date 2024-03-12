@@ -14,8 +14,7 @@ namespace CoachingAPI.Data
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<Map> Maps { get; set; }
-        public DbSet<GeneralStats> GeneralStats { get; set; }
-        public DbSet<MapStats> MapStats { get; set; }
+            
         public DbSet<PlayerMatchStats> PlayerPerformanceStats { get; set; }
         public DbSet<TeamMatchStats> TeamPerformanceStats { get; set; }
 
@@ -29,10 +28,6 @@ namespace CoachingAPI.Data
 
             //modelBuilder.Entity<GeneralStats>()
             //    .HasKey(ps => ps.PlayerGuid);
-
-            // Define composite primary key for PlayerMapStats
-            modelBuilder.Entity<MapStats>()
-                .HasKey(pms => new { pms.FK_GeneralStatsId, pms.FK_MapName });
 
             // Define composite primary key for Membership
             modelBuilder.Entity<Membership>()
@@ -63,15 +58,12 @@ namespace CoachingAPI.Data
 
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.TeamMatchStats)
-                .WithOne(tps => tps.RelatedMatch);
+                .WithOne(tps => tps.RelatedMatch);          
 
-            modelBuilder.Entity<Team>()
-                .HasOne(t => t.Stats)
-                .WithOne();
-
-            modelBuilder.Entity<Player>()
-                .HasOne(p => p.Stats)
-                .WithOne();
+            modelBuilder.Entity<PlayerMatchStats>()
+                .HasOne(pms => pms.TeamMatchStats)
+                .WithMany()
+                .HasForeignKey(pms => new {pms.FK_MatchId, pms.FK_TeamMatchStats_TeamId});
 
             //modelBuilder.Entity<Team>()
             //    .HasOne(t => t.Stats)

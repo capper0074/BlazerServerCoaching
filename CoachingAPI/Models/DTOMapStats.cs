@@ -2,7 +2,7 @@
 
 namespace CoachingAPI.Models
 {
-    public class MapStats
+    public class DTOMapStats
     {
         public int MatchesPlayed { get; set; }
         public int Wins { get; set; }
@@ -25,10 +25,6 @@ namespace CoachingAPI.Models
         // Navigation properties
         public Guid FK_GeneralStatsId { get; set; }
         public MapName FK_MapName { get; set; }
-
-        [ForeignKey(nameof(FK_GeneralStatsId))]
-        public GeneralStats RelatedGeneralStats { get; set; }
-        [ForeignKey(nameof(FK_MapName))]
         public Map Map { get; set; }
     }
 }

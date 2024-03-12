@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoachingAPI.Models
 {
-    public class GeneralStats
+    public class DTOGeneralStats
     {
         [Key]
         public Guid Id { get; set; }
@@ -20,7 +20,7 @@ namespace CoachingAPI.Models
         // Navigation property
         //public Guid PlayerGuid { get; set; }
 
-        public List<MapStats> MapStats { get; set; } = new();
+        public List<DTOMapStats> MapStats { get; set; } = new();
         //[ForeignKey(nameof(PlayerGuid))]
         //public Player RelatedPlayer { get; set; }
     }

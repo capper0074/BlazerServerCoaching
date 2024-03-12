@@ -46,42 +46,7 @@ namespace CoachingAPI.Controllers
             }
 
             return player;
-        }
-        //Get: api/Players/PlayerGeneralStats/5
-        [HttpGet("PlayerGeneralStats/{id}")]
-        public async Task<ActionResult<GeneralStats>> GetPlayerGeneralStats(Guid id)
-        {
-            if (_context.GeneralStats == null)
-            {
-                return NotFound();
-            }
-            var playerstats = await _context.GeneralStats.FindAsync(id);
-
-            if (playerstats == null)
-            {
-                return NotFound();
-            }
-
-            return playerstats;
-        }
-       
-        //Get: api/Players/TeamGeneralStats/5
-        [HttpGet("TeamGeneralStats/{id}")]
-        public async Task<ActionResult<GeneralStats>> GetTeamGeneralStats(string id)
-        {
-            if (_context.GeneralStats == null)
-            {
-                return NotFound();
-            }
-            var teamstats = await _context.GeneralStats.FindAsync(id);
-
-            if (teamstats == null)
-            {
-                return NotFound();
-            }
-
-            return teamstats;
-        }
+        }   
 
         // PUT: api/Players/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
