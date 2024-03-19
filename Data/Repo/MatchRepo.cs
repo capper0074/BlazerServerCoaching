@@ -60,7 +60,7 @@ namespace BlazerServerCoaching.Data.Repo
             }
         }
 
-        public void Save(string date, Models.MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
+        public void Save(DateTime? date, Models.MatchType type, string oppenent, MatchMaps maps, MatchStatus status, int tSideW, int tSideL, int cTSideW, int cTSideL, bool tPistol, bool cTPistol)
         {
             using (SqlConnection con  = GetConnection())
             {
@@ -69,7 +69,7 @@ namespace BlazerServerCoaching.Data.Repo
                 SqlCommand cmd = new SqlCommand("INSERT INTO MATCHS (Date, Type, Oppenent, Maps, Status, TsideW, TSideL, CTSideW, CTSideL, TPistol, CTPistol) " + "VALUES(@Date, @Type, @Oppenent, @Maps, @Status, @TsideW, @TsideL, @CTSideW, @CTSideL, @TPistol, @CTPistol)", con);
 
                 //cmd.Parameters.AddWithValue("@Id", id.ToString());
-                cmd.Parameters.AddWithValue("@Date", date.ToString());
+                cmd.Parameters.AddWithValue("@Date", date);
                 cmd.Parameters.AddWithValue("@Type", type.ToString());
                 cmd.Parameters.AddWithValue("@Oppenent", oppenent.ToString());
                 cmd.Parameters.AddWithValue("@Maps", maps.ToString());
@@ -84,6 +84,20 @@ namespace BlazerServerCoaching.Data.Repo
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection con = GetConnection())
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand($"DELETE FROM MATCHS WHERE Id = {id} ", con);
+
+                cmd.ExecuteNonQuery();
+
+            }
+        }
+
 
         public Match Retrieve(string id)
         {

@@ -1,0 +1,76 @@
+﻿using CoachingAPI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+
+namespace CoachingAPI.Data
+{
+    public class PlayersDbContext : DbContext
+    {
+        public PlayersDbContext(DbContextOptions<PlayersDbContext> options) : base(options) { }
+
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
+        public DbSet<Match> Matches { get; set; }
+        public DbSet<Map> Maps { get; set; }
+            
+        public DbSet<PlayerMatchStats> PlayerPerformanceStats { get; set; }
+        public DbSet<TeamMatchStats> TeamPerformanceStats { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Player>().ToTable("Player");
+            modelBuilder.Entity<Team>().ToTable("Team");
+            modelBuilder.Entity<Membership>().ToTable("Membership");
+            modelBuilder.Entity<Match>().ToTable("Match");
+            modelBuilder.Entity<Map>().ToTable("Map");
+
+            //modelBuilder.Entity<GeneralStats>()
+            //    .HasKey(ps => ps.PlayerGuid);
+
+            // Define composite primary key for Membership
+            modelBuilder.Entity<Membership>()
+                .HasKey(m => new { m.PlayerId, m.TeamId });
+
+            modelBuilder.Entity<PlayerMatchStats>()
+                .HasKey(pps => new { pps.FK_PlayerId, pps.FK_MatchId });
+
+            modelBuilder.Entity<TeamMatchStats>()
+                .HasKey(tps => new { tps.FK_TeamId, tps.FK_MatchId });
+
+            // Define many-to-many relationship between Match and Team
+            modelBuilder.Entity<Match>()
+                .HasMany(m => m.Teams) // Match has many relationships to Team, via Teams property
+                .WithMany(t => t.Matches); // Team has many relationships to Match, via Matches property
+
+            // Define one-to-many relationship between Team and Match.Winner
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.Winner) // Each Match has one winner
+                .WithMany()// The teams don't keep track of what matches they've won, as they have no navigation properties
+                .HasForeignKey(m => m.FK_WinnerTeamId); // Specifies the foreign key property in Match
+                
+                
+
+            modelBuilder.Entity<Match>()
+                .HasMany(m => m.PlayerMatchStats)
+                .WithOne(pps => pps.RelatedMatch);
+
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.TeamMatchStats)
+                .WithOne(tps => tps.RelatedMatch);          
+
+            modelBuilder.Entity<PlayerMatchStats>()
+                .HasOne(pms => pms.TeamMatchStats)
+                .WithMany()
+                .HasForeignKey(pms => new {pms.FK_MatchId, pms.FK_TeamMatchStats_TeamId});
+
+            //modelBuilder.Entity<Team>()
+            //    .HasOne(t => t.Stats)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.NoAction);
+
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}
