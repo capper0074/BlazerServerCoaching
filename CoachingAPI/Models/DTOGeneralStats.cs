@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using CoachingAPI.Models.Interfaces;
 
 namespace CoachingAPI.Models
 {
-    public class DTOGeneralStats
+    public class DTOGeneralStats(ITrackable target, List<DTOMapStats> mapStats)
     {
         public int Wins { get; set; }
         public int Losses { get; set; }
@@ -14,11 +13,7 @@ namespace CoachingAPI.Models
         public int KRRatio { get; set; }
         public int Headshots { get; set; }
 
-        // Navigation property
-        //public Guid PlayerGuid { get; set; }
-
-        public List<DTOMapStats> MapStats { get; set; } = new();
-        //[ForeignKey(nameof(PlayerGuid))]
-        //public Player RelatedPlayer { get; set; }
+        public ITrackable Target { get; set; } = target;
+        public List<DTOMapStats> MapStats { get; set; } = mapStats;
     }
 }
