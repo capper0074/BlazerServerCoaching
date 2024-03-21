@@ -25,6 +25,7 @@ namespace CoachingAPI.Controllers
             {
                 return NotFound();
             }
+
             return await _context.Players.ToListAsync();
         }
 
@@ -132,6 +133,20 @@ namespace CoachingAPI.Controllers
         private bool PlayerExists(Guid id)
         {
             return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        [HttpGet("GeneratePlayer")]
+        public async Task<ActionResult<Player>> GeneratePlayer()
+        {
+            Player player = new()
+            {
+                Name = "GeneratedPlayer"
+            };
+
+            _context.Players.Add(player);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
         }
     }
 }
