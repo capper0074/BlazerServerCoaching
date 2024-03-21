@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CoachingAPI.Models.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoachingAPI.Models
 {
-    public class Player
+    public class Player : ITrackable
     {
         [Key]
-        public Guid PlayerId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
-        public bool IsCoach { get; set; }
 
         // Navigation properties
-        public List<Membership> Memberships { get; set; } = new();
+        public List<Membership> Memberships { get; set; } = [];
     }
 }

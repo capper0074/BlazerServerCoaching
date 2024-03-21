@@ -51,7 +51,7 @@ namespace CoachingAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlayer(Guid id, Player player)
         {
-            if (id != player.PlayerId)
+            if (id != player.Id)
             {
                 return BadRequest();
             }
@@ -91,7 +91,7 @@ namespace CoachingAPI.Controllers
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPlayer", new { id = player.PlayerId }, player);
+            return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
         }
 
         //POST: apy/Players/match/
@@ -101,7 +101,7 @@ namespace CoachingAPI.Controllers
             Team winnerteam = await _context.Teams.FindAsync(winner);
             List<Team> matchteams = _context.Teams.Where(t => teams.Contains(t.Id)).ToList();
             Map mapused = _context.Maps.Find(map);
-            _context.Add(new Match(date, matchPlatform,mapused,fK_WinnerTeamId,matchteams,winnerteam));
+            //_context.Add(new Match(date, matchPlatform,mapused,fK_WinnerTeamId,matchteams));
             _context.SaveChanges();
             return Ok();
 
@@ -131,7 +131,7 @@ namespace CoachingAPI.Controllers
 
         private bool PlayerExists(Guid id)
         {
-            return (_context.Players?.Any(e => e.PlayerId == id)).GetValueOrDefault();
+            return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

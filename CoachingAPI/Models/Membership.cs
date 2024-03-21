@@ -11,18 +11,18 @@ namespace CoachingAPI.Models
 
     public class Membership
     {
+        public MembershipType MembershipType { get; set; }
+
         public DateTime JoinDate { get; set; }
         public DateTime? LeaveDate { get; set; }
 
-        public MembershipType MembershipType { get; set; }
-
         // Navigation properties
-        public Guid PlayerId { get; set; }
-        public Guid TeamId { get; set; }
+        public Guid FKPlayerId { get; set; }
+        public Guid FKTeamId { get; set; }
 
-        [ForeignKey(nameof(PlayerId))]
+        [ForeignKey(nameof(FKPlayerId))]
         public Player Player { get; set; }
-        [ForeignKey(nameof(TeamId))]
+        [ForeignKey(nameof(FKTeamId))]
         public Team Team { get; set; }
     }
 }

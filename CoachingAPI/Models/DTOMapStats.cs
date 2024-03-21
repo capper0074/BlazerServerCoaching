@@ -2,7 +2,7 @@
 
 namespace CoachingAPI.Models
 {
-    public class DTOMapStats
+    public class DTOMapStats(Map map)
     {
         public int MatchesPlayed { get; set; }
         public int Wins { get; set; }
@@ -23,6 +23,6 @@ namespace CoachingAPI.Models
         public int TPistolRoundsLost { get; set; }
 
         // Navigation properties
-        public Map Map { get; set; }
+        public Map Map { get; set; } = map;
     }
 }
