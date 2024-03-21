@@ -135,7 +135,7 @@ namespace CoachingAPI.Controllers
             return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        [HttpGet("GeneratePlayer")]
+        [HttpGet("generate")]
         public async Task<ActionResult<Player>> GeneratePlayer()
         {
             Player player = new()
