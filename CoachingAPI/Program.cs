@@ -10,15 +10,14 @@ namespace CoachingAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             string? connectionString;
 
             if (builder.Environment.IsDevelopment())
             {
                 builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
 
-                connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")
-                    ?? throw new InvalidOperationException("Connection string 'AZURE_SQL_CONNECTIONSTRING' not found.");
+                connectionString = builder.Configuration["AZURE_SQL_CONNECTIONSTRING"]
+                    ?? throw new InvalidOperationException("User secret 'AZURE_SQL_CONNECTIONSTRING' not found.");
             }
             else
             {
@@ -34,7 +33,7 @@ namespace CoachingAPI
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-            // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwaggerUI();
@@ -45,7 +44,6 @@ namespace CoachingAPI
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
