@@ -16,6 +16,10 @@ namespace CoachingAPI
             {
                 builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
 
+                // Use this if we actually take the connectionstring value from a config file, and not our secretly secret secrets!
+                //connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")
+                //    ?? throw new InvalidOperationException("User secret 'AZURE_SQL_CONNECTIONSTRING' not found.");
+
                 connectionString = builder.Configuration["AZURE_SQL_CONNECTIONSTRING"]
                     ?? throw new InvalidOperationException("User secret 'AZURE_SQL_CONNECTIONSTRING' not found.");
             }
