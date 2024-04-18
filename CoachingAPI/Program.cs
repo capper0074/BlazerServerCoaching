@@ -9,30 +9,14 @@ namespace CoachingAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            string? connectionString;
-
-            if (builder.Environment.IsDevelopment())
-            {
-                builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-
-                // Use this if we actually take the connectionstring value from a config file, and not our secretly secret secrets!
-                //connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")
-                //    ?? throw new InvalidOperationException("User secret 'AZURE_SQL_CONNECTIONSTRING' not found.");
-
-                connectionString = builder.Configuration["AZURE_SQL_CONNECTIONSTRING"]
-                    ?? throw new InvalidOperationException("User secret 'AZURE_SQL_CONNECTIONSTRING' not found.");
-            }
-            else
-            {
-                connectionString = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING")
-                    ?? throw new InvalidOperationException("Connection string 'AZURE_SQL_CONNECTIONSTRING' not found.");
-            }
+            // Fetch connection string from either *top secret* location.
+            string? connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")
+                ?? throw new InvalidOperationException("Connection string 'AZURE_SQL_CONNECTIONSTRING' not found.");
 
             builder.Services.AddDbContext<PlayersDbContext>(options => options.UseSqlServer(connectionString));
-            
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -43,6 +27,7 @@ namespace CoachingAPI
                 app.UseSwaggerUI();
             }
 
+            // Serialize as V2 to comply with Azure App Service.
             app.UseSwagger(options => options.SerializeAsV2 = true);
 
             app.UseHttpsRedirection();
