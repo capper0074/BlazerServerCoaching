@@ -50,7 +50,7 @@ namespace CoachingAPI.Controllers
         // PUT: api/Players/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlayer(Guid id, Player player)
+        public async Task<IActionResult> PutPlayer(int id, Player player)
         {
             if (id != player.Id)
             {
@@ -97,7 +97,7 @@ namespace CoachingAPI.Controllers
 
         //POST: apy/Players/match/
         [HttpPost("Matchpost")]
-        public async Task<ActionResult> PostMatch(DateTime date, MatchPlatform matchPlatform, MapName map, Guid fK_WinnerTeamId, List<Guid> teams, Guid winner)
+        public async Task<ActionResult> PostMatch(DateTime date, MatchPlatform matchPlatform, MapName map, int fK_WinnerTeamId, List<int> teams, int winner)
         {
             Team winnerteam = await _context.Teams.FindAsync(winner);
             List<Team> matchteams = _context.Teams.Where(t => teams.Contains(t.Id)).ToList();
@@ -130,7 +130,7 @@ namespace CoachingAPI.Controllers
             return NoContent();
         }
 
-        private bool PlayerExists(Guid id)
+        private bool PlayerExists(int id)
         {
             return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
         }

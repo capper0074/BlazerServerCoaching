@@ -16,17 +16,17 @@ namespace CoachingAPI.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public DateTime Date { get; set; }
         public MatchPlatform MatchPlatform { get; set; }
 
         // Navigation properties
-        public MapName FKMapName { get; set; }
-        public Guid FKTeamWinnerId { get; set; }
+        public MapName MapName { get; set; }
+        public int WinnerTeamId { get; set; }
 
-        [ForeignKey(nameof(FKMapName))]
+        [ForeignKey(nameof(MapName))]
         public Map Map { get; set; }
-        [ForeignKey(nameof(FKTeamWinnerId))]
+        [ForeignKey(nameof(WinnerTeamId))]
         public Team? Winner { get; set; }
 
         public List<Team> Teams { get; set; } = [];
