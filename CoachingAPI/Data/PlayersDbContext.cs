@@ -24,8 +24,8 @@ namespace CoachingAPI.Data
             modelBuilder.Entity<Match>().ToTable("Match");
             modelBuilder.Entity<Map>().ToTable("Map");
 
-            modelBuilder.Entity<PlayerMatchStats>().ToTable("PlayerMatchStat");
-            modelBuilder.Entity<TeamMatchStats>().ToTable("TeamMatchStat");
+            modelBuilder.Entity<PlayerMatchStats>().ToTable("PlayerMatchStats");
+            modelBuilder.Entity<TeamMatchStats>().ToTable("TeamMatchStats");
 
             // Configured identity columns
             modelBuilder.Entity<Player>().Property(p => p.Id).UseIdentityColumn();
@@ -46,8 +46,26 @@ namespace CoachingAPI.Data
                 .HasForeignKey(pms => new { pms.TeamId, pms.MatchId })
                 .OnDelete(DeleteBehavior.NoAction); // Keep the team match stats when a player's match stats is deleted
 
+            // Configure indexing for PlayerMatchStats
+            modelBuilder.Entity<PlayerMatchStats>()
+                .HasIndex(pms => pms.MatchId)
+                .IsUnique(false); // Allow us to create more than one row for a single match
+
+            modelBuilder.Entity<PlayerMatchStats>()
+                .HasIndex(pms => new { pms.PlayerId, pms.MatchId }) // Create a composite index for PlayerId and MatchId
+                .IsUnique();
+
             modelBuilder.Entity<TeamMatchStats>()
                 .HasKey(tms => new { tms.TeamId, tms.MatchId });
+
+            // Configure indexing for TeamMatchStats
+            modelBuilder.Entity<TeamMatchStats>()
+                .HasIndex(tms => tms.MatchId)
+                .IsUnique(false); // Allow us to create more than one row for a single match
+
+            modelBuilder.Entity<TeamMatchStats>()
+                .HasIndex(tms => new { tms.TeamId, tms.MatchId }) // Create a composite index for TeamId and MatchId
+                .IsUnique();
 
             // Define many-to-many relationship between Match and Team
             modelBuilder.Entity<Match>()

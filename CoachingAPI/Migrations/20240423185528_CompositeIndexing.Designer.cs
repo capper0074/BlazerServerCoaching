@@ -4,6 +4,7 @@ using CoachingAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoachingAPI.Migrations
 {
     [DbContext(typeof(PlayersDbContext))]
-    partial class PlayersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240423185528_CompositeIndexing")]
+    partial class CompositeIndexing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,7 +197,8 @@ namespace CoachingAPI.Migrations
 
                     b.HasKey("TeamId", "MatchId");
 
-                    b.HasIndex("MatchId");
+                    b.HasIndex("MatchId")
+                        .IsUnique();
 
                     b.HasIndex("TeamId", "MatchId")
                         .IsUnique();

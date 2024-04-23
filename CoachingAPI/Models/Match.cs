@@ -5,8 +5,8 @@ namespace CoachingAPI.Models
 {
     public enum MatchPlatform
     {
-        FaceIt,
         Scrim,
+        FaceIt,
         Metal,
         YouSee,
         Power
