@@ -5,10 +5,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace CoachingAPI.Data
 {
-    public class PlayersDbContext : DbContext
+    public class PlayersDbContext(DbContextOptions<PlayersDbContext> options) : DbContext(options)
     {
-        public PlayersDbContext(DbContextOptions<PlayersDbContext> options) : base(options) { }
-
         public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Membership> Memberships { get; set; }
@@ -25,6 +23,8 @@ namespace CoachingAPI.Data
             modelBuilder.Entity<Membership>().ToTable("Membership");
             modelBuilder.Entity<Match>().ToTable("Match");
             modelBuilder.Entity<Map>().ToTable("Map");
+            modelBuilder.Entity<PlayerMatchStats>().ToTable("PlayerMatchStat");
+            modelBuilder.Entity<TeamMatchStats>().ToTable("TeamMatchStat");
 
             // Define composite primary key for Membership
             modelBuilder.Entity<Membership>()
@@ -58,12 +58,12 @@ namespace CoachingAPI.Data
             modelBuilder.Entity<Match>()
                 .HasMany(m => m.PlayerMatchStats)
                 .WithOne(pps => pps.Match)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade); // Ensure that when a match is deleted, the associated PlayerMatchStats are also deleted
 
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.TeamMatchStats)
                 .WithOne(tps => tps.Match)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade); // Ensure that when a match is deleted, the associated TeamMatchStats are also deleted
 
             base.OnModelCreating(modelBuilder);
         }
