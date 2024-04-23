@@ -17,12 +17,12 @@ namespace CoachingAPI.Models
         public DateTime? LeaveDate { get; set; }
 
         // Navigation properties
-        public Guid FKPlayerId { get; set; }
-        public Guid FKTeamId { get; set; }
+        public int PlayerId { get; set; }
+        public int TeamId { get; set; }
 
-        [ForeignKey(nameof(FKPlayerId))]
+        [ForeignKey(nameof(PlayerId))]
         public Player Player { get; set; }
-        [ForeignKey(nameof(FKTeamId))]
+        [ForeignKey(nameof(TeamId))]
         public Team Team { get; set; }
     }
 }

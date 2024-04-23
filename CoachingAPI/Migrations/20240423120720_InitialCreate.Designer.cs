@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoachingAPI.Migrations
 {
     [DbContext(typeof(PlayersDbContext))]
-    [Migration("20240321120847_InitialCreate")]
+    [Migration("20240423120720_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace CoachingAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -40,38 +40,40 @@ namespace CoachingAPI.Migrations
 
             modelBuilder.Entity("CoachingAPI.Models.Match", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FKMapName")
+                    b.Property<int>("MapName")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("FKTeamWinnerId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("MatchPlatform")
                         .HasColumnType("int");
 
+                    b.Property<int>("WinnerTeamId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FKMapName");
+                    b.HasIndex("MapName");
 
-                    b.HasIndex("FKTeamWinnerId");
+                    b.HasIndex("WinnerTeamId");
 
                     b.ToTable("Match", (string)null);
                 });
 
             modelBuilder.Entity("CoachingAPI.Models.Membership", b =>
                 {
-                    b.Property<Guid>("FKPlayerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("FKTeamId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("datetime2");
@@ -82,18 +84,20 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("MembershipType")
                         .HasColumnType("int");
 
-                    b.HasKey("FKPlayerId", "FKTeamId");
+                    b.HasKey("PlayerId", "TeamId");
 
-                    b.HasIndex("FKTeamId");
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Membership", (string)null);
                 });
 
             modelBuilder.Entity("CoachingAPI.Models.Player", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -106,20 +110,17 @@ namespace CoachingAPI.Migrations
 
             modelBuilder.Entity("CoachingAPI.Models.PlayerMatchStats", b =>
                 {
-                    b.Property<Guid>("FKPlayerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("FKMatchId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Assists")
                         .HasColumnType("int");
 
                     b.Property<int>("Deaths")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("FKTeamId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Headshots")
                         .HasColumnType("int");
@@ -133,20 +134,25 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("Kills")
                         .HasColumnType("int");
 
-                    b.HasKey("FKPlayerId", "FKMatchId");
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("FKMatchId");
+                    b.HasKey("PlayerId", "MatchId");
 
-                    b.HasIndex("FKTeamId", "FKMatchId");
+                    b.HasIndex("MatchId");
 
-                    b.ToTable("PlayerMatchStats");
+                    b.HasIndex("TeamId", "MatchId");
+
+                    b.ToTable("PlayerMatchStat", (string)null);
                 });
 
             modelBuilder.Entity("CoachingAPI.Models.Team", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsMatchMaking")
                         .HasColumnType("bit");
@@ -162,11 +168,11 @@ namespace CoachingAPI.Migrations
 
             modelBuilder.Entity("CoachingAPI.Models.TeamMatchStats", b =>
                 {
-                    b.Property<Guid>("FKTeamId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("FKMatchId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CTPistolRoundWon")
                         .HasColumnType("int");
@@ -186,21 +192,21 @@ namespace CoachingAPI.Migrations
                     b.Property<int>("TRoundsWins")
                         .HasColumnType("int");
 
-                    b.HasKey("FKTeamId", "FKMatchId");
+                    b.HasKey("TeamId", "MatchId");
 
-                    b.HasIndex("FKMatchId")
+                    b.HasIndex("MatchId")
                         .IsUnique();
 
-                    b.ToTable("TeamMatchStats");
+                    b.ToTable("TeamMatchStat", (string)null);
                 });
 
             modelBuilder.Entity("MatchTeam", b =>
                 {
-                    b.Property<Guid>("MatchesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("MatchesId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("TeamsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
 
                     b.HasKey("MatchesId", "TeamsId");
 
@@ -213,13 +219,13 @@ namespace CoachingAPI.Migrations
                 {
                     b.HasOne("CoachingAPI.Models.Map", "Map")
                         .WithMany()
-                        .HasForeignKey("FKMapName")
+                        .HasForeignKey("MapName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoachingAPI.Models.Team", "Winner")
                         .WithMany()
-                        .HasForeignKey("FKTeamWinnerId")
+                        .HasForeignKey("WinnerTeamId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -232,13 +238,13 @@ namespace CoachingAPI.Migrations
                 {
                     b.HasOne("CoachingAPI.Models.Player", "Player")
                         .WithMany("Memberships")
-                        .HasForeignKey("FKPlayerId")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoachingAPI.Models.Team", "Team")
                         .WithMany("Memberships")
-                        .HasForeignKey("FKTeamId")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -251,19 +257,19 @@ namespace CoachingAPI.Migrations
                 {
                     b.HasOne("CoachingAPI.Models.Match", "Match")
                         .WithMany("PlayerMatchStats")
-                        .HasForeignKey("FKMatchId")
+                        .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoachingAPI.Models.Player", "Player")
                         .WithMany()
-                        .HasForeignKey("FKPlayerId")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoachingAPI.Models.TeamMatchStats", "TeamMatchStats")
                         .WithMany()
-                        .HasForeignKey("FKTeamId", "FKMatchId")
+                        .HasForeignKey("TeamId", "MatchId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -278,13 +284,13 @@ namespace CoachingAPI.Migrations
                 {
                     b.HasOne("CoachingAPI.Models.Match", "Match")
                         .WithOne("TeamMatchStats")
-                        .HasForeignKey("CoachingAPI.Models.TeamMatchStats", "FKMatchId")
+                        .HasForeignKey("CoachingAPI.Models.TeamMatchStats", "MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoachingAPI.Models.Team", "Team")
                         .WithMany()
-                        .HasForeignKey("FKTeamId")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

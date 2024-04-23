@@ -27,7 +27,8 @@ namespace CoachingAPI.Migrations
                 name: "Player",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -39,7 +40,8 @@ namespace CoachingAPI.Migrations
                 name: "Team",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsMatchMaking = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -52,24 +54,25 @@ namespace CoachingAPI.Migrations
                 name: "Match",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MatchPlatform = table.Column<int>(type: "int", nullable: false),
-                    FKMapName = table.Column<int>(type: "int", nullable: false),
-                    FKTeamWinnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    MapName = table.Column<int>(type: "int", nullable: false),
+                    WinnerTeamId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Match", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Match_Map_FKMapName",
-                        column: x => x.FKMapName,
+                        name: "FK_Match_Map_MapName",
+                        column: x => x.MapName,
                         principalTable: "Map",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Match_Team_FKTeamWinnerId",
-                        column: x => x.FKTeamWinnerId,
+                        name: "FK_Match_Team_WinnerTeamId",
+                        column: x => x.WinnerTeamId,
                         principalTable: "Team",
                         principalColumn: "Id");
                 });
@@ -78,24 +81,24 @@ namespace CoachingAPI.Migrations
                 name: "Membership",
                 columns: table => new
                 {
-                    FKPlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FKTeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false),
                     MembershipType = table.Column<int>(type: "int", nullable: false),
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LeaveDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Membership", x => new { x.FKPlayerId, x.FKTeamId });
+                    table.PrimaryKey("PK_Membership", x => new { x.PlayerId, x.TeamId });
                     table.ForeignKey(
-                        name: "FK_Membership_Player_FKPlayerId",
-                        column: x => x.FKPlayerId,
+                        name: "FK_Membership_Player_PlayerId",
+                        column: x => x.PlayerId,
                         principalTable: "Player",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Membership_Team_FKTeamId",
-                        column: x => x.FKTeamId,
+                        name: "FK_Membership_Team_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Team",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -105,8 +108,8 @@ namespace CoachingAPI.Migrations
                 name: "MatchTeam",
                 columns: table => new
                 {
-                    MatchesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TeamsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    MatchesId = table.Column<int>(type: "int", nullable: false),
+                    TeamsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,11 +129,11 @@ namespace CoachingAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamMatchStats",
+                name: "TeamMatchStat",
                 columns: table => new
                 {
-                    FKTeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FKMatchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false),
+                    MatchId = table.Column<int>(type: "int", nullable: false),
                     TRoundsPlayed = table.Column<int>(type: "int", nullable: false),
                     TRoundsWins = table.Column<int>(type: "int", nullable: false),
                     TPistolRoundWon = table.Column<int>(type: "int", nullable: false),
@@ -140,66 +143,66 @@ namespace CoachingAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamMatchStats", x => new { x.FKTeamId, x.FKMatchId });
+                    table.PrimaryKey("PK_TeamMatchStat", x => new { x.TeamId, x.MatchId });
                     table.ForeignKey(
-                        name: "FK_TeamMatchStats_Match_FKMatchId",
-                        column: x => x.FKMatchId,
+                        name: "FK_TeamMatchStat_Match_MatchId",
+                        column: x => x.MatchId,
                         principalTable: "Match",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeamMatchStats_Team_FKTeamId",
-                        column: x => x.FKTeamId,
+                        name: "FK_TeamMatchStat_Team_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Team",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayerMatchStats",
+                name: "PlayerMatchStat",
                 columns: table => new
                 {
-                    FKPlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FKMatchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
+                    MatchId = table.Column<int>(type: "int", nullable: false),
                     Kills = table.Column<int>(type: "int", nullable: false),
                     Deaths = table.Column<int>(type: "int", nullable: false),
                     Assists = table.Column<int>(type: "int", nullable: false),
                     KDRatio = table.Column<double>(type: "float", nullable: false),
                     KRRatio = table.Column<double>(type: "float", nullable: false),
                     Headshots = table.Column<int>(type: "int", nullable: false),
-                    FKTeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TeamId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayerMatchStats", x => new { x.FKPlayerId, x.FKMatchId });
+                    table.PrimaryKey("PK_PlayerMatchStat", x => new { x.PlayerId, x.MatchId });
                     table.ForeignKey(
-                        name: "FK_PlayerMatchStats_Match_FKMatchId",
-                        column: x => x.FKMatchId,
+                        name: "FK_PlayerMatchStat_Match_MatchId",
+                        column: x => x.MatchId,
                         principalTable: "Match",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlayerMatchStats_Player_FKPlayerId",
-                        column: x => x.FKPlayerId,
+                        name: "FK_PlayerMatchStat_Player_PlayerId",
+                        column: x => x.PlayerId,
                         principalTable: "Player",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlayerMatchStats_TeamMatchStats_FKTeamId_FKMatchId",
-                        columns: x => new { x.FKTeamId, x.FKMatchId },
-                        principalTable: "TeamMatchStats",
-                        principalColumns: new[] { "FKTeamId", "FKMatchId" });
+                        name: "FK_PlayerMatchStat_TeamMatchStat_TeamId_MatchId",
+                        columns: x => new { x.TeamId, x.MatchId },
+                        principalTable: "TeamMatchStat",
+                        principalColumns: new[] { "TeamId", "MatchId" });
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Match_FKMapName",
+                name: "IX_Match_MapName",
                 table: "Match",
-                column: "FKMapName");
+                column: "MapName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Match_FKTeamWinnerId",
+                name: "IX_Match_WinnerTeamId",
                 table: "Match",
-                column: "FKTeamWinnerId");
+                column: "WinnerTeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MatchTeam_TeamsId",
@@ -207,24 +210,24 @@ namespace CoachingAPI.Migrations
                 column: "TeamsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Membership_FKTeamId",
+                name: "IX_Membership_TeamId",
                 table: "Membership",
-                column: "FKTeamId");
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerMatchStats_FKMatchId",
-                table: "PlayerMatchStats",
-                column: "FKMatchId");
+                name: "IX_PlayerMatchStat_MatchId",
+                table: "PlayerMatchStat",
+                column: "MatchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerMatchStats_FKTeamId_FKMatchId",
-                table: "PlayerMatchStats",
-                columns: new[] { "FKTeamId", "FKMatchId" });
+                name: "IX_PlayerMatchStat_TeamId_MatchId",
+                table: "PlayerMatchStat",
+                columns: new[] { "TeamId", "MatchId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamMatchStats_FKMatchId",
-                table: "TeamMatchStats",
-                column: "FKMatchId",
+                name: "IX_TeamMatchStat_MatchId",
+                table: "TeamMatchStat",
+                column: "MatchId",
                 unique: true);
         }
 
@@ -238,13 +241,13 @@ namespace CoachingAPI.Migrations
                 name: "Membership");
 
             migrationBuilder.DropTable(
-                name: "PlayerMatchStats");
+                name: "PlayerMatchStat");
 
             migrationBuilder.DropTable(
                 name: "Player");
 
             migrationBuilder.DropTable(
-                name: "TeamMatchStats");
+                name: "TeamMatchStat");
 
             migrationBuilder.DropTable(
                 name: "Match");
