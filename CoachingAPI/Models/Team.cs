@@ -1,6 +1,7 @@
 ﻿using CoachingAPI.Models.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CoachingAPI.Models
 {
@@ -15,6 +16,7 @@ namespace CoachingAPI.Models
 
         // Navigation properties
         public List<Membership> Memberships { get; set; } = [];
+        [JsonIgnore] // Ignore this to avoid circular reference when serializing to JSON
         public List<Match> Matches { get; set; } = [];
     }
 }
