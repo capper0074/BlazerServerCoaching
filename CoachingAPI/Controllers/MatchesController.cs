@@ -92,7 +92,7 @@ namespace CoachingAPI.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            // If the match was deleted after we retrieved them from the DB, return a 404
+            // If the match was deleted after we retrieved it from the DB, return a 404
             catch (DbUpdateConcurrencyException) when (!MatchExists(id))
             {
                 return NotFound();
@@ -151,6 +151,9 @@ namespace CoachingAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMatch(int id)
         {
+            if (_context.Matches == null)
+                return NotFound();
+
             var match = await _context.Matches.FindAsync(id);
 
             if (match == null)
