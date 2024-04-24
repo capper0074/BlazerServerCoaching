@@ -1,8 +1,8 @@
-﻿using CoachingAPI.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using CoachingAPI.Data;
 using CoachingAPI.Models;
 using CoachingAPI.Models.DTOs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoachingAPI.Controllers
 {
