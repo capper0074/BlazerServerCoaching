@@ -1,8 +1,8 @@
 ﻿using CoachingAPI.Models.Interfaces;
 
-namespace CoachingAPI.Models
+namespace CoachingAPI.Models.DTOs
 {
-    public class DTOGeneralStats(ITrackable target, List<DTOMapStats> mapStats)
+    public class GeneralStatsDTO(ITrackable target, List<MapStatsDTO> mapStats)
     {
         public int Wins { get; set; }
         public int Losses { get; set; }
@@ -14,6 +14,6 @@ namespace CoachingAPI.Models
         public int Headshots { get; set; }
 
         public ITrackable Target { get; set; } = target;
-        public List<DTOMapStats> MapStats { get; set; } = mapStats;
+        public List<MapStatsDTO> MapStats { get; set; } = mapStats;
     }
 }

@@ -24,6 +24,7 @@ namespace CoachingAPI.Data
             modelBuilder.Entity<Match>().ToTable("Match");
             modelBuilder.Entity<Map>().ToTable("Map");
 
+            // We keep these tables plural, because of the "stats" suffix
             modelBuilder.Entity<PlayerMatchStats>().ToTable("PlayerMatchStats");
             modelBuilder.Entity<TeamMatchStats>().ToTable("TeamMatchStats");
 
