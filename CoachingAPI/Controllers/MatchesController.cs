@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using CoachingAPI.Data;
 using CoachingAPI.Models;
 using CoachingAPI.Models.DTOs;
-using CoachingAPI.Models.Statistics;
 
 namespace CoachingAPI.Controllers
 {
