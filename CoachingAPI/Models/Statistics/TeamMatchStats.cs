@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CoachingAPI.Models
+namespace CoachingAPI.Models.Statistics
 {
     public class TeamMatchStats
     {

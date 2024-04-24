@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CoachingAPI.Models
+namespace CoachingAPI.Models.Statistics
 {
     public class PlayerMatchStats
     {
@@ -20,7 +20,5 @@ namespace CoachingAPI.Models
         public Player Player { get; set; }
         [ForeignKey(nameof(MatchId))]
         public Match Match { get; set; }
-
-        public TeamMatchStats TeamMatchStats { get; set; }
     }
 }
