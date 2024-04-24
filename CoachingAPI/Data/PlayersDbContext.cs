@@ -70,9 +70,9 @@ namespace CoachingAPI.Data
                 .IsUnique();
 
             // Define many-to-many relationship between Match and Team
-            //modelBuilder.Entity<Match>()
-            //    .HasMany(m => m.Teams) // Match has many relationships to Team, via Teams property
-            //    .WithMany(t => t.Matches); // Team has many relationships to Match, via Matches property
+            modelBuilder.Entity<Match>()
+                .HasMany(m => m.Teams) // Match has many relationships to Team, via Teams property
+                .WithMany(t => t.Matches); // Team has many relationships to Match, via Matches property
 
             // Define one-to-many relationship between Team and Match.Winner
             modelBuilder.Entity<Match>()
