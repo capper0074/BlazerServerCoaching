@@ -41,7 +41,9 @@ namespace CoachingAPI.Controllers
             if (_context.Players == null)
                 return NotFound();
 
-            return await _context.Players.Include(p => p.Memberships).ToListAsync();
+            return await _context.Players
+                .Include(p => p.Memberships)
+                .ToListAsync();
         }
 
         [HttpGet("detailed/{id}")]
