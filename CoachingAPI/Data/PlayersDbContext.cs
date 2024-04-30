@@ -1,4 +1,5 @@
 ﻿using CoachingAPI.Models;
+using CoachingAPI.Models.Statistics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +25,7 @@ namespace CoachingAPI.Data
             modelBuilder.Entity<Match>().ToTable("Match");
             modelBuilder.Entity<Map>().ToTable("Map");
 
+            // We keep these tables plural, because of the "stats" suffix
             modelBuilder.Entity<PlayerMatchStats>().ToTable("PlayerMatchStats");
             modelBuilder.Entity<TeamMatchStats>().ToTable("TeamMatchStats");
 
@@ -40,11 +42,11 @@ namespace CoachingAPI.Data
                 .HasKey(tms => new { tms.PlayerId, tms.MatchId });
 
             // Define foreign key for TeamMatchStats property in PlayerMatchStats
-            modelBuilder.Entity<PlayerMatchStats>()
-                .HasOne(pms => pms.TeamMatchStats)
-                .WithMany()
-                .HasForeignKey(pms => new { pms.TeamId, pms.MatchId })
-                .OnDelete(DeleteBehavior.NoAction); // Keep the team match stats when a player's match stats is deleted
+            //modelBuilder.Entity<PlayerMatchStats>()
+            //    .HasOne(pms => pms.TeamMatchStats)
+            //    .WithMany()
+            //    .HasForeignKey(pms => new { pms.TeamId, pms.MatchId })
+            //    .OnDelete(DeleteBehavior.NoAction); // Keep the team match stats when a player's match stats is deleted
 
             // Configure indexing for PlayerMatchStats
             modelBuilder.Entity<PlayerMatchStats>()
@@ -79,15 +81,15 @@ namespace CoachingAPI.Data
                 .HasForeignKey(m => m.WinnerTeamId) // Specifies the foreign key property in Match
                 .OnDelete(DeleteBehavior.NoAction); // Prevents deletion of a the winning team on match deletion
 
-            modelBuilder.Entity<Match>()
-                .HasMany(m => m.PlayerMatchStats)
-                .WithOne(pps => pps.Match)
-                .OnDelete(DeleteBehavior.Cascade); // Ensure that when a match is deleted, the associated PlayerMatchStats are also deleted
+            //modelBuilder.Entity<Match>()
+            //    .HasMany(m => m.PlayerMatchStats)
+            //    .WithOne(pps => pps.Match)
+            //    .OnDelete(DeleteBehavior.Cascade); // Ensure that when a match is deleted, the associated PlayerMatchStats are also deleted
 
-            modelBuilder.Entity<Match>()
-                .HasOne(m => m.TeamMatchStats)
-                .WithOne(tps => tps.Match)
-                .OnDelete(DeleteBehavior.Cascade); // Ensure that when a match is deleted, the associated TeamMatchStats are also deleted
+            //modelBuilder.Entity<Match>()
+            //    .HasOne(m => m.TeamMatchStats)
+            //    .WithOne(tps => tps.Match)
+            //    .OnDelete(DeleteBehavior.Cascade); // Ensure that when a match is deleted, the associated TeamMatchStats are also deleted
 
             base.OnModelCreating(modelBuilder);
         }

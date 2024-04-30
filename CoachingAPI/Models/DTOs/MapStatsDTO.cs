@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CoachingAPI.Models
+namespace CoachingAPI.Models.DTOs
 {
-    public class DTOMapStats(Map map)
+    public class MapStatsDTO(Map map)
     {
         public int MatchesPlayed { get; set; }
         public int Wins { get; set; }
